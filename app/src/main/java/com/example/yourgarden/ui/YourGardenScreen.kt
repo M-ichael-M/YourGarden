@@ -28,6 +28,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.yourgarden.R
+import com.example.yourgarden.ui.screens.CouponsScreen
+import com.example.yourgarden.ui.screens.CouponsViewModel
 import com.example.yourgarden.ui.screens.HomeScreen
 import com.example.yourgarden.ui.screens.HomeViewModel
 import com.example.yourgarden.ui.screens.music.MusicList
@@ -36,7 +38,8 @@ import com.example.yourgarden.ui.screens.music.MusicViewModel
 enum class GardenScreen(@StringRes val title: Int)
 {
     Start(title = R.string.yourgarden),
-    MusicList(title = R.string.music)
+    MusicList(title = R.string.music),
+    Coupons(title = R.string.coupons)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -68,7 +71,7 @@ fun GardenAppBar(
 }
 
 @Composable
-fun GardenApp(navController: NavController = rememberNavController(), homeViewModel: HomeViewModel, musicViewModel: MusicViewModel)
+fun GardenApp(navController: NavController = rememberNavController(), homeViewModel: HomeViewModel, musicViewModel: MusicViewModel, couponsViewModel: CouponsViewModel)
 {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = GardenScreen.valueOf(
@@ -89,11 +92,13 @@ fun GardenApp(navController: NavController = rememberNavController(), homeViewMo
         NavHost(navController = navController as NavHostController, startDestination = GardenScreen.Start.name) {
             composable(GardenScreen.Start.name) {
                 HomeScreen( screens = listOf(
-                    GardenScreen.MusicList
+                    GardenScreen.MusicList,
+                    GardenScreen.Coupons
                 ),
                     onNextButtonClicked = { screen ->
                         when (screen) {
                             GardenScreen.MusicList -> navController.navigate(GardenScreen.MusicList.name)
+                            GardenScreen.Coupons -> navController.navigate(GardenScreen.Coupons.name)
 
                             else -> {}
                         }
@@ -108,6 +113,9 @@ fun GardenApp(navController: NavController = rememberNavController(), homeViewMo
             composable(GardenScreen.MusicList.name)
             {
                 MusicList(musicViewModel)
+            }
+            composable(GardenScreen.Coupons.name) {
+                CouponsScreen(viewModel = couponsViewModel)
             }
 
         }

@@ -1,7 +1,7 @@
 package com.example.yourgarden.ui
 
 import android.content.Context
-import com.example.yourgarden.data.SongDatabase
+import com.example.yourgarden.data.GardenDatabase
 import com.example.yourgarden.data.song.SongDao
 import com.example.yourgarden.data.song.SongEntity
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 
 class MusicListRepository(context: Context) : SongDao {
-    private val dao = SongDatabase.getInstance(context).songDao()
+    private val dao = GardenDatabase.getInstance(context).songDao()
 
     override suspend fun insertSong(song: SongEntity) = dao.insertSong(song)
     override fun getAllSongs(): Flow<List<SongEntity>> = dao.getAllSongs()

@@ -49,6 +49,11 @@ android {
     packaging {
         resources {
             pickFirsts += ("lib/*/libpython.zip.so")
+            excludes += listOf(
+                "/META-INF/NOTICE.md",  // Poprzedni konflikt
+                "/META-INF/LICENSE.md"  // Nowy konflikt
+            )
+
         }
     }
 }
@@ -86,4 +91,6 @@ dependencies {
     implementation("com.faltenreich:skeletonlayout:5.0.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
+    implementation ("com.sun.mail:android-mail:1.6.7")
+    implementation ("com.sun.mail:android-activation:1.6.7")
 }
