@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import com.example.yourgarden.R
 import com.example.yourgarden.data.song.SongEntity
@@ -65,6 +66,26 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
     var isPlaying by remember { mutableStateOf(false) }
     var playbackPosition by remember { mutableLongStateOf(0L) }
     var totalDuration by remember { mutableLongStateOf(0L) }
+
+    DisposableEffect(player, downloadedSongs) {
+        val listener = object : Player.Listener {
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                if (playbackState == Player.STATE_ENDED) {
+                    val currentIndex = downloadedSongs.indexOf(currentSong)
+                    if (currentIndex != -1 && downloadedSongs.isNotEmpty()) {
+                        val nextIndex = if (currentIndex == downloadedSongs.lastIndex) 0 else currentIndex + 1
+                        currentSong = downloadedSongs[nextIndex]
+                        playbackPosition = 0L
+                        isPlaying = true
+                    }
+                }
+            }
+        }
+        player.addListener(listener)
+        onDispose { player.removeListener(listener) }
+    }
+
+
 
     // Ustawienie bieżącego utworu
     LaunchedEffect(currentSong) {
