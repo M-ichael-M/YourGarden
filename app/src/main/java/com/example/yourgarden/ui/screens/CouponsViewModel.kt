@@ -1,10 +1,7 @@
 package com.example.yourgarden.ui.screens
 
-import android.content.Context
 import android.util.Log
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -22,38 +19,13 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 class CouponsViewModel(
-    private val repository: CouponsRepository,
-    private val context: Context
+    private val repository: CouponsRepository
 ) : ViewModel() {
-
-    var couponCode by mutableStateOf("")
-        private set
 
     val couponStatus = mutableStateOf<String?>(null)
     val usedCoupons = mutableStateOf<List<CouponsEntity>>(emptyList())
-
-    fun updateCouponCode(newCode: String) {
-        couponCode = newCode
-    }
-
-    fun submitCoupon() {
-        viewModelScope.launch {
-            val coupon = repository.getCouponByCode(couponCode)
-            if (coupon != null && !coupon.used) {
-                val updatedCoupon = coupon.copy(
-                    used = true,
-                    date = Date()
-                )
-                repository.updateCoupon(updatedCoupon)
-                couponStatus.value = "Kupon aktywowany!"
-                sendEmail(coupon.code, coupon.title) // Wysyłamy e-mail
-                couponCode = ""
-                refreshUsedCoupons()
-            } else {
-                couponStatus.value = "Nieprawidłowy lub użyty kupon."
-            }
-        }
-    }
+    val unusedCoupons = mutableStateOf<List<CouponsEntity>>(emptyList())
+    val couponToActivate = mutableStateOf<CouponsEntity?>(null) // Nowy stan dla dialogu
 
     private fun refreshUsedCoupons() {
         viewModelScope.launch {
@@ -61,12 +33,60 @@ class CouponsViewModel(
         }
     }
 
-    // Funkcja wysyłająca e-mail
+    private fun refreshUnusedCoupons() {
+        viewModelScope.launch {
+            unusedCoupons.value = repository.getAllCoupons().filter { !it.used }
+        }
+    }
+
+    // Przygotowanie kuponu do aktywacji (zamiast bezpośredniej aktywacji)
+    fun prepareActivateCoupon(coupon: CouponsEntity) {
+        couponToActivate.value = coupon
+    }
+
+    fun activateCoupon(coupon: CouponsEntity) {
+        viewModelScope.launch {
+            if (!coupon.used) {
+                val updatedCoupon = coupon.copy(
+                    used = true,
+                    date = Date()
+                )
+                repository.updateCoupon(updatedCoupon)
+                couponStatus.value = "Kupon ${coupon.title} aktywowany!"
+                sendEmail(coupon.code, coupon.title)
+                refreshUsedCoupons()
+                refreshUnusedCoupons()
+            }
+        }
+    }
+
+    // Potwierdzenie aktywacji
+    fun confirmActivateCoupon() {
+        val coupon = couponToActivate.value ?: return
+        viewModelScope.launch {
+            if (!coupon.used) {
+                val updatedCoupon = coupon.copy(
+                    used = true,
+                    date = Date()
+                )
+                repository.updateCoupon(updatedCoupon)
+                couponStatus.value = "Kupon ${coupon.title} aktywowany!"
+                sendEmail(coupon.code, coupon.title)
+                refreshUsedCoupons()
+                refreshUnusedCoupons()
+                couponToActivate.value = null // Reset stanu
+            }
+        }
+    }
+
+    fun cancelActivateCoupon() {
+        couponToActivate.value = null // Reset stanu
+    }
+
     private fun sendEmail(code: String, title: String) {
         viewModelScope.launch {
             try {
                 withContext(Dispatchers.IO) {
-                    // Ustawienia SMTP dla Gmaila
                     val props = Properties().apply {
                         put("mail.smtp.host", "smtp.gmail.com")
                         put("mail.smtp.port", "587")
@@ -74,17 +94,15 @@ class CouponsViewModel(
                         put("mail.smtp.starttls.enable", "true")
                     }
 
-                    // Sesja z uwierzytelnieniem
                     val session = Session.getDefaultInstance(props, object : javax.mail.Authenticator() {
                         override fun getPasswordAuthentication(): javax.mail.PasswordAuthentication {
                             return javax.mail.PasswordAuthentication(
-                                "yourgardenapp@gmail.com", // Adres e-mail nadawcy
-                                "lerktpsnljzurqcu"         // Hasło aplikacji (bez spacji)
+                                "yourgardenapp@gmail.com",
+                                "lerktpsnljzurqcu"
                             )
                         }
                     })
 
-                    // Tworzenie wiadomości
                     val message = MimeMessage(session).apply {
                         setFrom(InternetAddress("yourgardenapp@gmail.com"))
                         addRecipient(Message.RecipientType.TO, InternetAddress("michalmaleczek@gmail.com"))
@@ -92,7 +110,6 @@ class CouponsViewModel(
                         setText("Twoja dziewczyna aktywowała kupon: $title (kod: $code) w dniu ${Date()}")
                     }
 
-                    // Wysłanie wiadomości
                     Transport.send(message)
                 }
                 Log.d("CouponsViewModel", "E-mail wysłany pomyślnie")
@@ -108,18 +125,18 @@ class CouponsViewModel(
         viewModelScope.launch {
             repository.insertInitialCoupons()
             refreshUsedCoupons()
+            refreshUnusedCoupons()
         }
     }
 }
 
 class CouponsViewModelFactory(
-    private val repository: CouponsRepository,
-    private val context: Context
+    private val repository: CouponsRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(CouponsViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return CouponsViewModel(repository, context) as T
+            return CouponsViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

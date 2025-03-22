@@ -9,7 +9,8 @@ import java.util.Date
 data class CouponsEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val title: String,
-    val code: String, // Zmienione z Int na String
+    val code: String,
+    val description: String,
     val used: Boolean,
     val date: Date?
 )

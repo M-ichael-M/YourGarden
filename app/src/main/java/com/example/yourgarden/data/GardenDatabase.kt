@@ -13,7 +13,7 @@ import com.example.yourgarden.data.coupons.CouponsEntity
 import com.example.yourgarden.data.song.SongDao
 import com.example.yourgarden.data.song.SongEntity
 
-@Database(entities = [SongEntity::class, CouponsEntity::class], version = 3, exportSchema = false)
+@Database(entities = [SongEntity::class, CouponsEntity::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class GardenDatabase : RoomDatabase() {
     abstract fun songDao(): SongDao
@@ -43,6 +43,12 @@ abstract class GardenDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE coupons ADD COLUMN description TEXT")
+            }
+        }
+
         fun getInstance(context: Context): GardenDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -50,7 +56,7 @@ abstract class GardenDatabase : RoomDatabase() {
                     GardenDatabase::class.java,
                     "garden-database"
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                     .build()
                 INSTANCE = instance
                 instance

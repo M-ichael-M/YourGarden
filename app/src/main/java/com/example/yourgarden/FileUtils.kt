@@ -15,7 +15,7 @@ object FileUtils {
         return file.absolutePath
     }
 
-    suspend fun deleteDownloadedSong(context: Context, song: SongEntity, songDao: SongDao) {
+    suspend fun deleteDownloadedSong(song: SongEntity, songDao: SongDao) {
         song.filePath?.let {
             val file = File(it)
             if (file.exists()) {

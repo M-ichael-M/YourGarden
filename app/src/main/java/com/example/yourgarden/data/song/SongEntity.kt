@@ -11,5 +11,5 @@ data class SongEntity(
     val duration: Int,
     val youtubeUrl: String,
     val filePath: String?,
-    val downloadStatus: String? = null // Nowy stan: null, "Downloading", "Downloaded", "Error"
+    val downloadStatus: String? = null
 )

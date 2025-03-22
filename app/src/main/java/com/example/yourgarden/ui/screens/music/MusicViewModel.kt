@@ -1,34 +1,22 @@
 package com.example.yourgarden.ui.screens.music
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yourgarden.FileUtils
-import com.example.yourgarden.data.song.SongDao
 import com.example.yourgarden.data.song.SongEntity
 import com.example.yourgarden.ui.MusicListRepository
-import com.yausername.youtubedl_android.YoutubeDL
-import com.yausername.youtubedl_android.YoutubeDLRequest
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
-import java.io.File
-import java.util.UUID
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class MusicViewModel(private val application: Application) : ViewModel() {
     private val repository = MusicListRepository(application)
@@ -78,7 +66,7 @@ class MusicViewModel(private val application: Application) : ViewModel() {
     fun deleteSong(song: SongEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                FileUtils.deleteDownloadedSong(application, song, repository)
+                FileUtils.deleteDownloadedSong(song, repository)
                 Log.d("MusicViewModel", "Utwór usunięty: ${song.title}")
             } catch (e: Exception) {
                 Log.e("MusicViewModel", "Błąd przy usuwaniu utworu: ${e.message}")
