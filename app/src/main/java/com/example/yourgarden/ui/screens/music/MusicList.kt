@@ -71,11 +71,15 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
         val listener = object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 if (playbackState == Player.STATE_ENDED) {
+                    // Szukamy indeksu bieżącego utworu w liście pobranych utworów
                     val currentIndex = downloadedSongs.indexOf(currentSong)
                     if (currentIndex != -1 && downloadedSongs.isNotEmpty()) {
+                        // Jeśli to ostatni utwór, możesz zacząć od początku lub zatrzymać odtwarzanie
                         val nextIndex = if (currentIndex == downloadedSongs.lastIndex) 0 else currentIndex + 1
                         currentSong = downloadedSongs[nextIndex]
+                        // Zresetuj pozycję odtwarzania
                         playbackPosition = 0L
+                        // Odtwarzaj nowy utwór
                         isPlaying = true
                     }
                 }
@@ -84,8 +88,6 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
         player.addListener(listener)
         onDispose { player.removeListener(listener) }
     }
-
-
 
     // Ustawienie bieżącego utworu
     LaunchedEffect(currentSong) {
