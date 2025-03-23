@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,19 +68,18 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
     var playbackPosition by remember { mutableLongStateOf(0L) }
     var totalDuration by remember { mutableLongStateOf(0L) }
 
-    DisposableEffect(player, downloadedSongs) {
+    val latestDownloadedSongs by rememberUpdatedState(downloadedSongs)
+
+    DisposableEffect(player) {
         val listener = object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
                 if (playbackState == Player.STATE_ENDED) {
-                    // Szukamy indeksu bieżącego utworu w liście pobranych utworów
-                    val currentIndex = downloadedSongs.indexOf(currentSong)
-                    if (currentIndex != -1 && downloadedSongs.isNotEmpty()) {
-                        // Jeśli to ostatni utwór, możesz zacząć od początku lub zatrzymać odtwarzanie
-                        val nextIndex = if (currentIndex == downloadedSongs.lastIndex) 0 else currentIndex + 1
-                        currentSong = downloadedSongs[nextIndex]
-                        // Zresetuj pozycję odtwarzania
-                        playbackPosition = 0L
-                        // Odtwarzaj nowy utwór
+                    // Używamy najnowszej listy utworów
+                    val currentIndex = latestDownloadedSongs.indexOf(currentSong)
+                    if (currentIndex != -1 && latestDownloadedSongs.isNotEmpty()) {
+                        val nextIndex = if (currentIndex == latestDownloadedSongs.lastIndex) 0 else currentIndex + 1
+                        playbackPosition = 0L  // resetujemy pozycję
+                        currentSong = latestDownloadedSongs[nextIndex]
                         isPlaying = true
                     }
                 }
@@ -139,12 +139,15 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                                 isPlaying = !isPlaying
                                 if (isPlaying) player.play() else player.pause()
                             } else {
+                                playbackPosition = 0L  // resetujemy pozycję
+                                player.stop()          // zatrzymujemy aktualny utwór, żeby uniknąć konfliktu
                                 currentSong = song
                                 isPlaying = true
                             }
                         },
                         onDeleteClick = { viewModel.deleteSong(song) }
                     )
+
                 }
             }
 
