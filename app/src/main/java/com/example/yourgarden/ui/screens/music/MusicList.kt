@@ -50,9 +50,7 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
     val downloadedSongs = songs.filter { it.filePath != null && File(it.filePath).exists() }
     val availableSongs = songs.filter { it.filePath == null }
 
-    // Stan wyszukiwania
     var searchQuery by remember { mutableStateOf("") }
-    // Filtrowanie utworów do pobrania bez uwzględniania znaków specjalnych i wielkości liter
     val filteredAvailableSongs = availableSongs.filter { song ->
         val cleanTitle = song.title.lowercase().replace("[^a-zA-Z0-9]".toRegex(), "")
         val cleanArtist = song.artist.lowercase().replace("[^a-zA-Z0-9]".toRegex(), "")
@@ -60,7 +58,6 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
         cleanTitle.contains(cleanQuery) || cleanArtist.contains(cleanQuery)
     }
 
-    // Stan odtwarzacza
     val context = LocalContext.current
     val player = remember { ExoPlayer.Builder(context).build() }
     var currentSong by remember { mutableStateOf<SongEntity?>(null) }
@@ -68,17 +65,24 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
     var playbackPosition by remember { mutableLongStateOf(0L) }
     var totalDuration by remember { mutableLongStateOf(0L) }
 
+    // Flaga do wykrywania ręcznego przełączenia utworu
+    var manualSkip by remember { mutableStateOf(false) }
+
     val latestDownloadedSongs by rememberUpdatedState(downloadedSongs)
 
     DisposableEffect(player) {
         val listener = object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
+                // Jeżeli przełączenie nastąpiło ręcznie, resetujemy flagę i nie wykonujemy auto-skip
+                if (manualSkip) {
+                    manualSkip = false
+                    return
+                }
                 if (playbackState == Player.STATE_ENDED) {
-                    // Używamy najnowszej listy utworów
                     val currentIndex = latestDownloadedSongs.indexOf(currentSong)
                     if (currentIndex != -1 && latestDownloadedSongs.isNotEmpty()) {
                         val nextIndex = if (currentIndex == latestDownloadedSongs.lastIndex) 0 else currentIndex + 1
-                        playbackPosition = 0L  // resetujemy pozycję
+                        playbackPosition = 0L
                         currentSong = latestDownloadedSongs[nextIndex]
                         isPlaying = true
                     }
@@ -95,14 +99,12 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
             val mediaItem = MediaItem.fromUri(Uri.fromFile(File(path)))
             player.setMediaItem(mediaItem)
             player.prepare()
-            player.seekTo(0L)  // wymuszenie startu od początku
+            player.seekTo(0L)
             if (isPlaying) player.play()
             totalDuration = player.duration
         }
     }
 
-
-    // Aktualizacja pozycji odtwarzania
     LaunchedEffect(player) {
         while (true) {
             playbackPosition = player.currentPosition
@@ -121,7 +123,6 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                 .weight(1f)
                 .padding(16.dp)
         ) {
-            // Sekcja pobranych utworów
             if (downloadedSongs.isNotEmpty()) {
                 item {
                     Text(
@@ -139,21 +140,18 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                                 isPlaying = !isPlaying
                                 if (isPlaying) player.play() else player.pause()
                             } else {
-                                playbackPosition = 0L  // resetujemy pozycję
-                                player.stop()          // zatrzymujemy aktualny utwór
-                                player.seekTo(0L)      // dodatkowy reset pozycji
+                                playbackPosition = 0L
+                                player.stop()
+                                player.seekTo(0L)
                                 currentSong = song
                                 isPlaying = true
                             }
                         },
-
-                                onDeleteClick = { viewModel.deleteSong(song) }
+                        onDeleteClick = { viewModel.deleteSong(song) }
                     )
-
                 }
             }
 
-            // Sekcja utworów do pobrania z wyszukiwarką
             if (availableSongs.isNotEmpty()) {
                 item {
                     Text(
@@ -161,7 +159,6 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                         style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
                     )
-                    // Pasek wyszukiwania
                     TextField(
                         value = searchQuery,
                         onValueChange = { searchQuery = it },
@@ -193,10 +190,31 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
             onSeek = { newPosition ->
                 playbackPosition = newPosition.toLong()
                 player.seekTo(playbackPosition)
+            },
+            onNextClick = {
+                val currentIndex = latestDownloadedSongs.indexOf(currentSong)
+                if (currentIndex != -1 && latestDownloadedSongs.isNotEmpty()) {
+                    manualSkip = true
+                    val nextIndex = if (currentIndex == latestDownloadedSongs.lastIndex) 0 else currentIndex + 1
+                    playbackPosition = 0L
+                    currentSong = latestDownloadedSongs[nextIndex]
+                    isPlaying = true
+                }
+            },
+            onPreviousClick = {
+                val currentIndex = latestDownloadedSongs.indexOf(currentSong)
+                if (currentIndex != -1 && latestDownloadedSongs.isNotEmpty()) {
+                    manualSkip = true
+                    val previousIndex = if (currentIndex == 0) latestDownloadedSongs.lastIndex else currentIndex - 1
+                    playbackPosition = 0L
+                    currentSong = latestDownloadedSongs[previousIndex]
+                    isPlaying = true
+                }
             }
         )
     }
 }
+
 
 @Composable
 fun SongItem(
@@ -257,7 +275,9 @@ fun PlaybackControls(
     playbackPosition: Long,
     totalDuration: Long,
     onPlayPauseClick: () -> Unit,
-    onSeek: (Float) -> Unit
+    onSeek: (Float) -> Unit,
+    onNextClick: () -> Unit,
+    onPreviousClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -271,10 +291,27 @@ fun PlaybackControls(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = onPlayPauseClick) {
+                // Przycisk poprzedni
+                IconButton(onClick = onPreviousClick) {
+                    Image(
+                        painter = painterResource(id = R.drawable.baseline_skip_previous_24),
+                        contentDescription = "Previous",
+                        modifier = Modifier.size(48.dp)
+                    )
+                }
+                // Przycisk play/pause
+                IconButton(onClick = onPlayPauseClick, modifier = Modifier.size(60.dp)) {
                     Image(
                         painter = painterResource(id = if (isPlaying) R.drawable.baseline_pause_24 else R.drawable.baseline_play_arrow_24),
                         contentDescription = "Play/Pause",
+                        modifier = Modifier.size(60.dp)
+                    )
+                }
+                // Przycisk następny
+                IconButton(onClick = onNextClick) {
+                    Image(
+                        painter = painterResource(id = R.drawable.baseline_skip_next_24),
+                        contentDescription = "Next",
                         modifier = Modifier.size(48.dp)
                     )
                 }
