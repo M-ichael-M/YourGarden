@@ -89,18 +89,18 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
         onDispose { player.removeListener(listener) }
     }
 
-    // Ustawienie bieżącego utworu
     LaunchedEffect(currentSong) {
         currentSong?.filePath?.let { path ->
             player.clearMediaItems()
             val mediaItem = MediaItem.fromUri(Uri.fromFile(File(path)))
             player.setMediaItem(mediaItem)
             player.prepare()
-            player.seekTo(playbackPosition)
+            player.seekTo(0L)  // wymuszenie startu od początku
             if (isPlaying) player.play()
             totalDuration = player.duration
         }
     }
+
 
     // Aktualizacja pozycji odtwarzania
     LaunchedEffect(player) {
@@ -140,12 +140,14 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                                 if (isPlaying) player.play() else player.pause()
                             } else {
                                 playbackPosition = 0L  // resetujemy pozycję
-                                player.stop()          // zatrzymujemy aktualny utwór, żeby uniknąć konfliktu
+                                player.stop()          // zatrzymujemy aktualny utwór
+                                player.seekTo(0L)      // dodatkowy reset pozycji
                                 currentSong = song
                                 isPlaying = true
                             }
                         },
-                        onDeleteClick = { viewModel.deleteSong(song) }
+
+                                onDeleteClick = { viewModel.deleteSong(song) }
                     )
 
                 }
