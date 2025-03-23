@@ -3343,6 +3343,22 @@ class MusicListRepository(context: Context) : SongDao {
                 filePath = null,
                 downloadStatus = null
             ),
+            SongEntity(
+                title = "Hometown Glory",
+                artist = "Adele",
+                duration = 271,
+                youtubeUrl = "https://www.youtube.com/watch?v=BW9Fzwuf43c&list=RDBW9Fzwuf43c&start_radio=1",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Self Esteem (featuring NLE Choppa)",
+                artist = "Lambo4oe, NLE Choppa",
+                duration = 170,
+                youtubeUrl = "https://youtu.be/hElerA-8kbU?list=RDhElerA-8kbU",
+                filePath = null,
+                downloadStatus = null
+            )
         )
         dao.insertAll(sampleSongs)
     }

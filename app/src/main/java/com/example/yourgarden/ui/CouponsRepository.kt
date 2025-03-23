@@ -50,7 +50,7 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
             CouponsEntity(
                 title = "FILM SURPRISE",
                 code = "4",
-                description = "",
+                description = "Aktywować najpóźniej 24h przed randką!",
                 used = false,
                 date = null
             ),
@@ -69,7 +69,7 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
                 date = null
             ),
             CouponsEntity(
-                title = "SPICY SURPRISE",
+                title = "SPICY SURPRISE 😏",
                 code = "69",
                 description = "Aktywować najpóźniej 2 tygodnie przed randką!",
                 used = false,
@@ -85,7 +85,7 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
             CouponsEntity(
                 title = "DIY SURPRISE (from me)",
                 code = "8",
-                description = "Aktywować najpóźniej 48h przed randką!",
+                description = "Aktywować najpóźniej 72h przed randką!",
                 used = false,
                 date = null
             ),
@@ -106,13 +106,13 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
             CouponsEntity(
                 title = "BEAUTY SPOT SURPRISE",
                 code = "11",
-                description = "Aktywować tylko w ładną pogodę!",
+                description = "Aktywować tylko w ładną pogodę (zalecane w Warszawie)!",
                 used = false,
                 date = null
             ),
             CouponsEntity(
                 title = "COFFEHOUSE TEST",
-                code = "2115",
+                code = "12",
                 description = "Aktywować najpóźniej 24h przed randką!",
                 used = false,
                 date = null
@@ -126,8 +126,15 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
             ),
             CouponsEntity(
                 title = "COSY SURPRISE",
+                code = "13",
+                description = "Aktywować 48h przed randką!",
+                used = false,
+                date = null
+            ),
+            CouponsEntity(
+                title = "KREMÓWKI",
                 code = "2137",
-                description = "Aktywować w dowolnym momencie!",
+                description = "Aktywować 24h przed randką!",
                 used = false,
                 date = null
             ),

@@ -26,6 +26,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -58,14 +59,18 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
         cleanTitle.contains(cleanQuery) || cleanArtist.contains(cleanQuery)
     }
 
+    // Pamiętamy indeksy już puszczonych utworów
+    val playedIndices = remember { mutableStateListOf<Int>() }
+
     val context = LocalContext.current
     val player = remember { ExoPlayer.Builder(context).build() }
     var currentSong by remember { mutableStateOf<SongEntity?>(null) }
     var isPlaying by remember { mutableStateOf(false) }
+    var isRandom by remember { mutableStateOf(false) }
     var playbackPosition by remember { mutableLongStateOf(0L) }
     var totalDuration by remember { mutableLongStateOf(0L) }
 
-    // Flaga do wykrywania ręcznego przełączenia utworu
+// Flaga do wykrywania ręcznego przełączenia utworu
     var manualSkip by remember { mutableStateOf(false) }
 
     val latestDownloadedSongs by rememberUpdatedState(downloadedSongs)
@@ -81,7 +86,27 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                 if (playbackState == Player.STATE_ENDED) {
                     val currentIndex = latestDownloadedSongs.indexOf(currentSong)
                     if (currentIndex != -1 && latestDownloadedSongs.isNotEmpty()) {
-                        val nextIndex = if (currentIndex == latestDownloadedSongs.lastIndex) 0 else currentIndex + 1
+                        var nextIndex = currentIndex
+                        if (isRandom) {
+                            // Dodaj bieżący indeks do listy puszczonych utworów, jeśli jeszcze nie został dodany
+                            if (!playedIndices.contains(currentIndex)) {
+                                playedIndices.add(currentIndex)
+                            }
+                            // Jeśli wszystkie utwory zostały już puszczone, resetujemy listę
+                            if (playedIndices.size >= latestDownloadedSongs.size) {
+                                playedIndices.clear()
+                                playedIndices.add(currentIndex) // zachowujemy bieżący utwór
+                            }
+                            // Wybierz losowy indeks spośród nieodtworzonych
+                            val availableIndices = latestDownloadedSongs.indices.filter { it !in playedIndices }
+                            nextIndex = if (availableIndices.isNotEmpty()) {
+                                availableIndices.random()
+                            } else {
+                                currentIndex
+                            }
+                        } else {
+                            nextIndex = if (currentIndex == latestDownloadedSongs.lastIndex) 0 else currentIndex + 1
+                        }
                         playbackPosition = 0L
                         currentSong = latestDownloadedSongs[nextIndex]
                         isPlaying = true
@@ -92,6 +117,7 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
         player.addListener(listener)
         onDispose { player.removeListener(listener) }
     }
+
 
     LaunchedEffect(currentSong) {
         currentSong?.filePath?.let { path ->
@@ -181,6 +207,7 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
 
         PlaybackControls(
             isPlaying = isPlaying,
+            isRandom = isRandom,
             playbackPosition = playbackPosition,
             totalDuration = totalDuration,
             onPlayPauseClick = {
@@ -209,7 +236,11 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                     playbackPosition = 0L
                     currentSong = latestDownloadedSongs[previousIndex]
                     isPlaying = true
+
                 }
+            },
+            onRandomClick = {
+                isRandom = !isRandom
             }
         )
     }
@@ -272,12 +303,14 @@ fun SongItem(
 @Composable
 fun PlaybackControls(
     isPlaying: Boolean,
+    isRandom: Boolean,
     playbackPosition: Long,
     totalDuration: Long,
     onPlayPauseClick: () -> Unit,
     onSeek: (Float) -> Unit,
     onNextClick: () -> Unit,
-    onPreviousClick: () -> Unit
+    onPreviousClick: () -> Unit,
+    onRandomClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -285,6 +318,13 @@ fun PlaybackControls(
             .background(MaterialTheme.colorScheme.surface)
             .padding(16.dp)
     ) {
+        IconButton(onClick = onRandomClick){
+            Image(
+                painter = painterResource(id = if(isRandom) R.drawable.baseline_shuffle_on_24 else R.drawable.baseline_shuffle_24),
+                contentDescription = "Random player",
+                modifier = Modifier.size(30.dp)
+            )
+        }
         Column {
             Row(
                 modifier = Modifier.fillMaxWidth(),
