@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -59,9 +61,7 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
         cleanTitle.contains(cleanQuery) || cleanArtist.contains(cleanQuery)
     }
 
-    // Pamiętamy indeksy już puszczonych utworów
     val playedIndices = remember { mutableStateListOf<Int>() }
-
     val context = LocalContext.current
     val player = remember { ExoPlayer.Builder(context).build() }
     var currentSong by remember { mutableStateOf<SongEntity?>(null) }
@@ -69,16 +69,16 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
     var isRandom by remember { mutableStateOf(false) }
     var playbackPosition by remember { mutableLongStateOf(0L) }
     var totalDuration by remember { mutableLongStateOf(0L) }
-
-// Flaga do wykrywania ręcznego przełączenia utworu
     var manualSkip by remember { mutableStateOf(false) }
 
     val latestDownloadedSongs by rememberUpdatedState(downloadedSongs)
 
+    // Stan do kontrolowania widoczności dialogu
+    var showAddSongDialog by remember { mutableStateOf(false) }
+
     DisposableEffect(player) {
         val listener = object : Player.Listener {
             override fun onPlaybackStateChanged(playbackState: Int) {
-                // Jeżeli przełączenie nastąpiło ręcznie, resetujemy flagę i nie wykonujemy auto-skip
                 if (manualSkip) {
                     manualSkip = false
                     return
@@ -88,16 +88,13 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                     if (currentIndex != -1 && latestDownloadedSongs.isNotEmpty()) {
                         var nextIndex = currentIndex
                         if (isRandom) {
-                            // Dodaj bieżący indeks do listy puszczonych utworów, jeśli jeszcze nie został dodany
                             if (!playedIndices.contains(currentIndex)) {
                                 playedIndices.add(currentIndex)
                             }
-                            // Jeśli wszystkie utwory zostały już puszczone, resetujemy listę
                             if (playedIndices.size >= latestDownloadedSongs.size) {
                                 playedIndices.clear()
-                                playedIndices.add(currentIndex) // zachowujemy bieżący utwór
+                                playedIndices.add(currentIndex)
                             }
-                            // Wybierz losowy indeks spośród nieodtworzonych
                             val availableIndices = latestDownloadedSongs.indices.filter { it !in playedIndices }
                             nextIndex = if (availableIndices.isNotEmpty()) {
                                 availableIndices.random()
@@ -117,7 +114,6 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
         player.addListener(listener)
         onDispose { player.removeListener(listener) }
     }
-
 
     LaunchedEffect(currentSong) {
         currentSong?.filePath?.let { path ->
@@ -193,6 +189,15 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)
                     )
+                    // Przycisk do dodawania piosenki
+                    Button(
+                        onClick = { showAddSongDialog = true },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                    ) {
+                        Text("Dodaj piosenkę")
+                    }
                 }
                 items(filteredAvailableSongs) { song ->
                     SongItem(
@@ -236,7 +241,6 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                     playbackPosition = 0L
                     currentSong = latestDownloadedSongs[previousIndex]
                     isPlaying = true
-
                 }
             },
             onRandomClick = {
@@ -244,8 +248,26 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
             }
         )
     }
-}
 
+    // Wyświetlanie dialogu do dodawania piosenki
+    if (showAddSongDialog) {
+        AddSongDialog(
+            onDismiss = { showAddSongDialog = false },
+            onSubmit = { title, artist, youtubeUrl ->
+                val newSong = SongEntity(
+                    title = title,
+                    artist = artist,
+                    duration = 4,
+                    youtubeUrl = youtubeUrl,
+                    filePath = null,
+                    downloadStatus = null
+                )
+                viewModel.insertSong(newSong)
+                showAddSongDialog = false
+            }
+        )
+    }
+}
 
 @Composable
 fun SongItem(
@@ -318,9 +340,9 @@ fun PlaybackControls(
             .background(MaterialTheme.colorScheme.surface)
             .padding(16.dp)
     ) {
-        IconButton(onClick = onRandomClick){
+        IconButton(onClick = onRandomClick) {
             Image(
-                painter = painterResource(id = if(isRandom) R.drawable.baseline_shuffle_on_24 else R.drawable.baseline_shuffle_24),
+                painter = painterResource(id = if (isRandom) R.drawable.baseline_shuffle_on_24 else R.drawable.baseline_shuffle_24),
                 contentDescription = "Random player",
                 modifier = Modifier.size(30.dp)
             )
@@ -331,7 +353,6 @@ fun PlaybackControls(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Przycisk poprzedni
                 IconButton(onClick = onPreviousClick) {
                     Image(
                         painter = painterResource(id = R.drawable.baseline_skip_previous_24),
@@ -339,7 +360,6 @@ fun PlaybackControls(
                         modifier = Modifier.size(48.dp)
                     )
                 }
-                // Przycisk play/pause
                 IconButton(onClick = onPlayPauseClick, modifier = Modifier.size(60.dp)) {
                     Image(
                         painter = painterResource(id = if (isPlaying) R.drawable.baseline_pause_24 else R.drawable.baseline_play_arrow_24),
@@ -347,7 +367,6 @@ fun PlaybackControls(
                         modifier = Modifier.size(60.dp)
                     )
                 }
-                // Przycisk następny
                 IconButton(onClick = onNextClick) {
                     Image(
                         painter = painterResource(id = R.drawable.baseline_skip_next_24),
@@ -371,6 +390,59 @@ fun PlaybackControls(
             }
         }
     }
+}
+
+@Composable
+fun AddSongDialog(
+    onDismiss: () -> Unit,
+    onSubmit: (String, String, String) -> Unit
+) {
+    var title by remember { mutableStateOf("") }
+    var artist by remember { mutableStateOf("") }
+    var youtubeUrl by remember { mutableStateOf("") }
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("Dodaj nową piosenkę") },
+        text = {
+            Column {
+                TextField(
+                    value = title,
+                    onValueChange = { title = it },
+                    label = { Text("Tytuł") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                TextField(
+                    value = artist,
+                    onValueChange = { artist = it },
+                    label = { Text("Artysta") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                TextField(
+                    value = youtubeUrl,
+                    onValueChange = { youtubeUrl = it },
+                    label = { Text("Link YouTube") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        },
+        confirmButton = {
+            Button(
+                onClick = {
+                    if (title.isNotBlank() && artist.isNotBlank() && youtubeUrl.isNotBlank()) {
+                        onSubmit(title, artist, youtubeUrl)
+                    }
+                }
+            ) {
+                Text("Dodaj")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text("Anuluj")
+            }
+        }
+    )
 }
 
 fun formatTime(millis: Long): String {

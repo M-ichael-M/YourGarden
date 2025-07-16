@@ -227,7 +227,7 @@ class MusicListRepository(context: Context) : SongDao {
                 title = "Empty Out Your Pockets",
                 artist = "Juice WRLD",
                 duration = 136,
-                youtubeUrl = "https://youtu.be/hgYhws0AHcg?list=RDhgYhws0AHcg",
+                youtubeUrl = "https://www.youtube.com/watch?v=1MXrfg2qnpw",
                 filePath = null,
                 downloadStatus = null
             ),
@@ -3358,7 +3358,777 @@ class MusicListRepository(context: Context) : SongDao {
                 youtubeUrl = "https://youtu.be/hElerA-8kbU?list=RDhElerA-8kbU",
                 filePath = null,
                 downloadStatus = null
-            )
+            ),
+            SongEntity(
+                title = "Praise the lord",
+                artist = "ASAP Rocky, Skepta",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=Kbj2Zss-5GY",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Rental",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=Tq5YHgxwGGk",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "PTSD",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=k3-fAXbCa44",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "1400/999 Freestyle",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=Q1LfhLus_5g",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "2055",
+                artist = "Sleepy Hallow",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=JFvPjg3yijg",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Outta da Blue",
+                artist = "Snoop Dogg",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=JUPLv48_exc",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Spend It",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=usIcGGIKJbc",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Floor It",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=lCZEbedzevQ",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Condone It",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=Jwm18NSC2L0",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Misfit",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=1HgLQP6xkIY",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Ransom",
+                artist = "Lil Tecca",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=AALQwjjk85Y",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Cavalier",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=BGiuQ77BnMY",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Run this town",
+                artist = "JAY-Z, Kanye West",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=AYO-17BDVCw",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Homecoming",
+                artist = "Kanye West",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=EzU0ofo3jOs",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "GO",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=kZFrj2ORq5U",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Hate the other side",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=rp2e4-Sh0Hc",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Smile",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=2avPJ9TZNmU",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "The light",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=a4YoRazp2Uo",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Knight crawler",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=wfEuYEtc5Vo",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Empty",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=9LSyWM2CL-U",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "End of the road",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=jt7wa2j1Nzc",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "In my head",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=g16NKy9zDPo",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Used to",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=Pxhds98iubg",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Rap god",
+                artist = "Eminem",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=S7cQ3b0iqLo",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Revenge",
+                artist = "XXXTENTACION",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=CD_tD26E7k0",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Look at me!",
+                artist = "XXXTENTACION",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=wJGcwEv7838",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "No Limit",
+                artist = "G-Eazy",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=l_lblj8Cq0o",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Everybody Dies In Their Nightmares",
+                artist = "XXXTENTACION",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=7JGDWKJfgxQ",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Bandit",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=dRV1BtBeDig",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Like that",
+                artist = "Future",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=N9bKBAA22Go",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Nuthin'ButA G Thang",
+                artist = "Dr. Dre",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=5y-eJ-yMfEo",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Young, Wild and Free",
+                artist = "Snoop Dogg",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=4A9UutuFLEw",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "CORALINE",
+                artist = "Maneskin",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=CmMO42bOTZ4",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Me, Myself & I",
+                artist = "G-Eazy",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=bSfpSOBD30U",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Ni**as in Paris",
+                artist = "Kanye West",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=fbFnF-86eYs",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Come & Go",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=5Di20x6vVVU",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Girl of my dreams",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=MvGdQ03mHrc",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Flaws and sins",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=RG9xHEF1vyk",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Fast",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=BO18LZkhiEc",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Wishing Well",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=Q3zpwgQK8Yg",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Robbery",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=iI34LYmJ1Fs",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Lace It",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=T4CY4wVqhPU",
+                filePath = null,
+                downloadStatus = null
+            ),
+
+            SongEntity(
+                title = "All girls are the same",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=h3EJICKwITw",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Godzilla",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=9XvXF1LrWgA",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Lose yourself",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/tR1ECf4sEpw",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "SUPERMODEL",
+                artist = "Maneskin",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/vJMMf-z25I0",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "MARK CHAMPAN",
+                artist = "Juice WRLD",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/ypk3X1xmSk4",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Experience",
+                artist = "Ludovico Einaudi",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/_VONMkKkdf4",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Believer",
+                artist = "Imagine Dragons",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=7wtfhZwyrcc",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "A Little Death",
+                artist = "The Neighbourhood",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=bRfMwoIizTQ",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Bruises",
+                artist = "Lewis Capaldi",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=QwtRXG1QpR4&list=RDQwtRXG1QpR4&start_radio=1",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Każdego Dnia",
+                artist = "Sobel",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/NrN3DLVpE28?list=RDNrN3DLVpE28",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Baby I'm Yours",
+                artist = "Arctic Monkeys",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/atYNqvZcQ3M?list=RDatYNqvZcQ3M",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Can I Be Him",
+                artist = "James Arthur",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/s3j4Mo9iMn4?list=RDs3j4Mo9iMn4",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "I Am",
+                artist = "James Arthur",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/0HGxQIKDWEs?list=RD0HGxQIKDWEs",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "The Hanging Tree",
+                artist = "James Newton Howard",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/F3hTW9e20d8?list=RDF3hTW9e20d8",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Chicago Freestyle (feat. Giveon)",
+                artist = "Drake",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/p9pf5EyOgcs?list=RDp9pf5EyOgcs",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Black Beauty",
+                artist = "Lana Del Rey",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/efwkzobSviA?list=RDefwkzobSviA",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Hate That I Love You",
+                artist = "Rihanna",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/KMOOr7GEkj8?list=RDKMOOr7GEkj8",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Roc Me Out",
+                artist = "Rihanna",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/jNbb8M9_u2Y?list=RDjNbb8M9_u2Y",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Take A Bow",
+                artist = "Rihanna",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/J3UjJ4wKLkg?list=RDJ3UjJ4wKLkg",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Talk That Talk",
+                artist = "Rihanna",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/Z8FarCnm1mE?list=RDZ8FarCnm1mE",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Candy",
+                artist = "Robbie Williams",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/ZRHHOttkM1A?list=RDZRHHOttkM1A",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "bar (bez bitu)",
+                artist = "Kajetan Wolas",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/8jGp3L5c5B0?list=RD8jGp3L5c5B0",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Don’t Blame Me",
+                artist = "Taylor Swift",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/kRJKB291Z1g?list=RDkRJKB291Z1g",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Walking On A Dream",
+                artist = "Empire Of The Sun",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/eimgRedLkkU?list=RDeimgRedLkkU",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Sweet",
+                artist = "Cigarettes After Sex",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/pZ31pyTZdh0?list=RDpZ31pyTZdh0",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Congratulations (feat. Bilal)",
+                artist = "Mac Miller",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/JoFkQ7iAQcw?list=RDJoFkQ7iAQcw",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Szum",
+                artist = "Kaśka Sochacka",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/4EAv2s8jZgo?list=RD4EAv2s8jZgo",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "undressed",
+                artist = "sombr",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/z0wT6CrEGYg?list=RDz0wT6CrEGYg",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "back to friends",
+                artist = "sombr",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/c8zq4kAn_O0?list=RDc8zq4kAn_O0",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Kiss It Better",
+                artist = "Rihanna",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/49lY0HqqUVc?list=RD49lY0HqqUVc",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Love Me Not",
+                artist = "Ravyn Lenae",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/cswfR85D7jM?list=RDcswfR85D7jM",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "american wedding (Hotel California)",
+                artist = "dopuu",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/shJtFmAHYSs?list=RDshJtFmAHYSs",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Stereo Love",
+                artist = "Edward Maya",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/p-Z3YrHJ1sU?list=RDp-Z3YrHJ1sU",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Only Girl (In The World)",
+                artist = "Rihanna",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/pa14VNsdSYM?list=RDpa14VNsdSYM",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "I Love It (feat. Charli XCX)",
+                artist = "Icona Pop",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/UxxajLWwzqY?list=RDUxxajLWwzqY",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "No Pole",
+                artist = "Don Toliver",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/A5mURRozXtg?list=RDA5mURRozXtg",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Obsessed",
+                artist = "Mariah Carey",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/H1Yt0xJKDY8?list=RDH1Yt0xJKDY8",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Step On Up",
+                artist = "Ariana Grande",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/iXHj1EGjBHg?list=RDiXHj1EGjBHg",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Problem",
+                artist = "Ariana Grande",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/iS1g8G_njx8?list=RDiS1g8G_njx8",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Back To Black",
+                artist = "Amy Winehouse",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/4Q4Gy2Z7xZ0?list=RD4Q4Gy2Z7xZ0",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Creep",
+                artist = "Radiohead",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/XFkzRNyygfk?list=RDXFkzRNyygfk",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Greedy",
+                artist = "Ariana Grande",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/oa11bHIZNaE?list=RDoa11bHIZNaE",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Let Down",
+                artist = "Radiohead",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/ZVgHPSyEIqk?list=RDZVgHPSyEIqk",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Refren trochę jak Lana Del Rey",
+                artist = "Quebonafide",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/LY0g_qVF2Iw?list=RDLY0g_qVF2Iw",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Niebo było różowe",
+                artist = "Kaśka Sochacka",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/iHDJ_xfW26Y?list=RDiHDJ_xfW26Y",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Just Keep Watching (From F1® The Movie)",
+                artist = "Tate McRae",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/HclsqV4jEUw?list=RDHclsqV4jEUw",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "4 Minutes (feat. Justin Timberlake & Timbaland)",
+                artist = "Madonna",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/mSguzyI9_H0?list=RDmSguzyI9_H0",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Be My Baby",
+                artist = "The Ronettes",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/jSPpbOGnFgk?list=RDjSPpbOGnFgk",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "lacy",
+                artist = "Olivia Rodrigo",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/_IB5EYuz3XM?list=RD_IB5EYuz3XM",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Carmen",
+                artist = "Lana Del Rey",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/L6K8Uq88BEQ?list=RDL6K8Uq88BEQ",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Million Dollar Man",
+                artist = "Lana Del Rey",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/YHmGVp6zRLw?list=RDYHmGVp6zRLw",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Music To Watch Boys To",
+                artist = "Lana Del Rey",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/5kYsxoWfjCg?list=RD5kYsxoWfjCg",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Cherry",
+                artist = "Lana Del Rey",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/uNuMH2i6wdI?list=RDuNuMH2i6wdI",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Lust For Life (with The Weeknd)",
+                artist = "Lana Del Rey",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/eP4eqhWc7sI?list=RDeP4eqhWc7sI",
+                filePath = null,
+                downloadStatus = null
+            ),
+
         )
         dao.insertAll(sampleSongs)
     }

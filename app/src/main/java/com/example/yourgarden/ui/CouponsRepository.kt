@@ -2,6 +2,8 @@ package com.example.yourgarden.ui
 
 import com.example.yourgarden.data.coupons.CouponsDao
 import com.example.yourgarden.data.coupons.CouponsEntity
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class CouponsRepository(private val couponsDao: CouponsDao) {
 
@@ -18,12 +20,17 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
     }
 
     suspend fun insertInitialCoupons() {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val dateString = "2023-10-27 10:30:00"
+        val parsedDate: Date? = dateFormat.parse(dateString)
+        println(parsedDate)
+
         val initialCoupons = listOf(
             CouponsEntity(
                 title = "BEST BIRTHDAY OF YOUR LIFE ",
                 code = "28062025",
                 description = "Dostępne tylko 28.03.2025!",
-                used = false,
+                used = true,
                 date = null
             ),
             CouponsEntity(
@@ -86,7 +93,7 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
                 title = "DIY SURPRISE (from me)",
                 code = "8",
                 description = "Aktywować najpóźniej 72h przed randką!",
-                used = false,
+                used = true,
                 date = null
             ),
             CouponsEntity(
@@ -118,11 +125,11 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
                 date = null
             ),
             CouponsEntity(
-                title = "JUST BE WITH ME",
+                title = "LOVE ME",
                 code = "22062024",
-                description = "Aktywować w dowolnym momencie!",
+                description = "Nigdy nie przestanę!",
                 used = false,
-                date = null
+                date = parsedDate
             ),
             CouponsEntity(
                 title = "COSY SURPRISE",
@@ -135,7 +142,7 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
                 title = "KREMÓWKI",
                 code = "2137",
                 description = "Aktywować 24h przed randką!",
-                used = false,
+                used = true,
                 date = null
             ),
         )

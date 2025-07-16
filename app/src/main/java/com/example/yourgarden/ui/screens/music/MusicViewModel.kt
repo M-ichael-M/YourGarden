@@ -29,7 +29,7 @@ class MusicViewModel(private val application: Application) : ViewModel() {
 
     private val sharedPreferences = application.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
     private val SERVER_URL_KEY = "server_url"
-    private val DEFAULT_SERVER_URL = "http://192.168.1.8:5000" // Usunięto /download
+    private val DEFAULT_SERVER_URL = "http://192.168.1.8:5000"
 
     fun getServerUrl(): String {
         return sharedPreferences.getString(SERVER_URL_KEY, DEFAULT_SERVER_URL) ?: DEFAULT_SERVER_URL
@@ -47,7 +47,7 @@ class MusicViewModel(private val application: Application) : ViewModel() {
                 val json = JSONObject().put("youtube_url", song.youtubeUrl).toString()
                 val body = json.toRequestBody("application/json".toMediaType())
                 val request = Request.Builder()
-                    .url("${getServerUrl()}/download") // Teraz będzie np. http://192.168.1.8:5000/download
+                    .url("${getServerUrl()}/download")
                     .post(body)
                     .build()
 
@@ -84,6 +84,13 @@ class MusicViewModel(private val application: Application) : ViewModel() {
             } catch (e: Exception) {
                 Log.e("MusicViewModel", "Błąd przy usuwaniu utworu: ${e.message}")
             }
+        }
+    }
+
+    // Nowa metoda do dodawania piosenki
+    fun insertSong(song: SongEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertSong(song)
         }
     }
 }
