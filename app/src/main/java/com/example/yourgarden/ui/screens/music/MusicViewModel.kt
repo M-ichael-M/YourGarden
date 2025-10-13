@@ -18,6 +18,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import androidx.core.content.edit
 
 class MusicViewModel(private val application: Application) : ViewModel() {
     private val repository = MusicListRepository(application)
@@ -36,7 +37,7 @@ class MusicViewModel(private val application: Application) : ViewModel() {
     }
 
     fun setServerUrl(url: String) {
-        sharedPreferences.edit().putString(SERVER_URL_KEY, url).apply()
+        sharedPreferences.edit { putString(SERVER_URL_KEY, url) }
     }
 
     fun downloadSong(song: SongEntity) {
