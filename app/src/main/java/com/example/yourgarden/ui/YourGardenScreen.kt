@@ -1,6 +1,9 @@
 package com.example.yourgarden.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,8 +41,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.yourgarden.R
 import com.example.yourgarden.ui.screens.CouponsScreen
 import com.example.yourgarden.ui.screens.CouponsViewModel
+import com.example.yourgarden.ui.screens.HeartScreenTransition
 import com.example.yourgarden.ui.screens.HomeScreen
-import com.example.yourgarden.ui.screens.HomeViewModel
 import com.example.yourgarden.ui.screens.music.MusicList
 import com.example.yourgarden.ui.screens.music.MusicViewModel
 
@@ -90,10 +93,10 @@ fun GardenAppBar(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun GardenApp(
     navController: NavController = rememberNavController(),
-    homeViewModel: HomeViewModel,
     musicViewModel: MusicViewModel,
     couponsViewModel: CouponsViewModel
 ) {
@@ -102,9 +105,9 @@ fun GardenApp(
         backStackEntry?.destination?.route ?: GardenScreen.Start.name
     )
 
-    // Stan dla dialogu zmiany URL
     var showDialog by remember { mutableStateOf(false) }
     var urlText by remember { mutableStateOf(musicViewModel.getServerUrl()) }
+    var showScreenTransition by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -112,10 +115,12 @@ fun GardenApp(
         GardenAppBar(
             currentScreen = currentScreen,
             canNavigateBack = navController.previousBackStackEntry != null,
-            navigateUp = { navController.popBackStack() },
-            // Przekazujemy viewModel
+            navigateUp = {
+                showScreenTransition = true
+                navController.popBackStack()
+            },
             onSettingsClick = {
-                urlText = musicViewModel.getServerUrl() // Ustawiamy aktualny URL przed otwarciem dialogu
+                urlText = musicViewModel.getServerUrl()
                 showDialog = true
             },
             modifier = Modifier
@@ -123,32 +128,44 @@ fun GardenApp(
                 .wrapContentHeight()
         )
 
-        NavHost(navController = navController as NavHostController, startDestination = GardenScreen.Start.name) {
-            composable(GardenScreen.Start.name) {
-                HomeScreen(
-                    screens = listOf(
-                        GardenScreen.MusicList,
-                        GardenScreen.Coupons
-                    ),
-                    onNextButtonClicked = { screen ->
-                        when (screen) {
-                            GardenScreen.MusicList -> navController.navigate(GardenScreen.MusicList.name)
-                            GardenScreen.Coupons -> navController.navigate(GardenScreen.Coupons.name)
-                            else -> {}
-                        }
-                    },
-                    homeViewModel,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                )
+        Box(modifier = Modifier.fillMaxSize()) {
+            NavHost(
+                navController = navController as NavHostController,
+                startDestination = GardenScreen.Start.name
+            ) {
+                composable(GardenScreen.Start.name) {
+                    HomeScreen(
+                        screens = listOf(
+                            GardenScreen.MusicList,
+                            GardenScreen.Coupons
+                        ),
+                        onNextButtonClicked = { screen ->
+                            showScreenTransition = true
+                            when (screen) {
+                                GardenScreen.MusicList -> navController.navigate(GardenScreen.MusicList.name)
+                                GardenScreen.Coupons -> navController.navigate(GardenScreen.Coupons.name)
+                                else -> {}
+                            }
+                        },
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(16.dp)
+                    )
+                }
+
+                composable(GardenScreen.MusicList.name) {
+                    MusicList(musicViewModel)
+                }
+                composable(GardenScreen.Coupons.name) {
+                    CouponsScreen(viewModel = couponsViewModel)
+                }
             }
 
-            composable(GardenScreen.MusicList.name) {
-                MusicList(musicViewModel)
-            }
-            composable(GardenScreen.Coupons.name) {
-                CouponsScreen(viewModel = couponsViewModel)
+            // Animacja przejścia ekranów
+            if (showScreenTransition) {
+                HeartScreenTransition(
+                    onAnimationEnd = { showScreenTransition = false }
+                )
             }
         }
 
@@ -169,7 +186,7 @@ fun GardenApp(
                 },
                 confirmButton = {
                     Button(onClick = {
-                        musicViewModel.setServerUrl(urlText) // Zapisujemy nowy URL
+                        musicViewModel.setServerUrl(urlText)
                         showDialog = false
                     }) {
                         Text("OK")
@@ -184,6 +201,8 @@ fun GardenApp(
         }
     }
 }
+
+
 
 @Composable
 @Preview

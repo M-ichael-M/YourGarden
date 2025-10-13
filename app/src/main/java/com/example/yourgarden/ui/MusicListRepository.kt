@@ -5,6 +5,7 @@ import com.example.yourgarden.data.GardenDatabase
 import com.example.yourgarden.data.song.SongDao
 import com.example.yourgarden.data.song.SongEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 class MusicListRepository(context: Context) : SongDao {
     private val dao = GardenDatabase.getInstance(context).songDao()
@@ -21,8 +22,8 @@ class MusicListRepository(context: Context) : SongDao {
         dao.updateDownloadStatus(youtubeUrl, status)
     }
 
-    suspend fun insertSampleSongs() {
-        val sampleSongs = listOf(
+    private fun getSampleSongs(): List<SongEntity> {
+        return listOf(
             SongEntity(
                 title = "Say you won't let go",
                 artist = "James Arthur",
@@ -4219,8 +4220,32 @@ class MusicListRepository(context: Context) : SongDao {
             SongEntity(title = "Teddy Picker", artist = "Arctic Monkeys", duration = 4, youtubeUrl = "https://youtu.be/VredAgNScOw", filePath = null, downloadStatus = null),
             SongEntity(title = "Me and Your Mama", artist = "Childish Gambino", duration = 4, youtubeUrl = "https://www.youtube.com/watch?v=fDNK7D6YMBQ", filePath = null, downloadStatus = null),
             SongEntity(title = "SLOW DANCING IN THE DARK", artist = "Joji", duration = 4, youtubeUrl = "https://youtu.be/K3Qzzggn--s", filePath = null, downloadStatus = null),
+        )
+    }
 
-            )
-        dao.insertAll(sampleSongs)
+    suspend fun insertSampleSongs() {
+        dao.insertAll(getSampleSongs())
+    }
+
+    suspend fun syncSampleSongs() {
+        try {
+            val existingSongs = getAllSongs().first()
+            val sampleSongs = getSampleSongs()
+
+            // Utwórz zbiór YouTubeUrl z istniejących piosenek dla szybszego wyszukiwania
+            val existingUrls = existingSongs.map { it.youtubeUrl }.toSet()
+
+            // Znajdź brakujące piosenki
+            val missingSongs = sampleSongs.filter { sample ->
+                sample.youtubeUrl !in existingUrls
+            }
+
+            // Dodaj brakujące piosenki do bazy
+            if (missingSongs.isNotEmpty()) {
+                dao.insertAll(missingSongs)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
