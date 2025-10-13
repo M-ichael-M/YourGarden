@@ -55,6 +55,9 @@ android {
             )
 
         }
+        jniLibs {
+            useLegacyPackaging = true
+        }
     }
 }
 
@@ -82,15 +85,15 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.room.ktx)
     kapt(libs.androidx.room.compiler)
-    implementation("com.github.yausername:youtubedl-android:0.15.0")
+    implementation(libs.youtubedl.android)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.okhttp)
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("com.faltenreich:skeletonlayout:5.0.0")
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation ("com.google.android.exoplayer:exoplayer:2.19.1")
-    implementation ("com.sun.mail:android-mail:1.6.7")
-    implementation ("com.sun.mail:android-activation:1.6.7")
+    implementation(libs.retrofit)
+    implementation(libs.logging.interceptor)
+    implementation(libs.converter.gson)
+    implementation(libs.skeletonlayout)
+    implementation(libs.glide)
+    implementation (libs.exoplayer)
+    implementation (libs.android.mail)
+    implementation (libs.android.activation)
 }
