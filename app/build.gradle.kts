@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.example.yourgarden"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.yourgarden"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -96,4 +96,6 @@ dependencies {
     implementation (libs.exoplayer)
     implementation (libs.android.mail)
     implementation (libs.android.activation)
+    implementation(libs.androidx.compose.material.icons.core)
+    implementation(libs.androidx.compose.material.icons.extended)
 }

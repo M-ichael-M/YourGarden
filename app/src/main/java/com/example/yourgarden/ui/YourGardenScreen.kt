@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,14 +56,17 @@ fun GardenAppBar(
     currentScreen: GardenScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
-    viewModel: MusicViewModel,
     onSettingsClick: () -> Unit, // Dodajemy callback
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = { Text(stringResource(currentScreen.title)) },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            scrolledContainerColor = Color.Unspecified,
+            navigationIconContentColor = Color.Unspecified,
+            titleContentColor = Color.Unspecified,
+            actionIconContentColor = Color.Unspecified
         ),
         modifier = modifier,
         navigationIcon = {
@@ -109,7 +113,7 @@ fun GardenApp(
             currentScreen = currentScreen,
             canNavigateBack = navController.previousBackStackEntry != null,
             navigateUp = { navController.popBackStack() },
-            viewModel = musicViewModel, // Przekazujemy viewModel
+            // Przekazujemy viewModel
             onSettingsClick = {
                 urlText = musicViewModel.getServerUrl() // Ustawiamy aktualny URL przed otwarciem dialogu
                 showDialog = true
