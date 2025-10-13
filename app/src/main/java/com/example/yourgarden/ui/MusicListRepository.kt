@@ -4128,8 +4128,99 @@ class MusicListRepository(context: Context) : SongDao {
                 filePath = null,
                 downloadStatus = null
             ),
+            SongEntity(
+                title = "Love",
+                artist = "Lana Del Rey",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=3-NTv0CdFCk",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "These Words",
+                artist = "Natasha Bedingfield",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/e5RuGj0g1tk",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Freak",
+                artist = "Lana Del Rey",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/Bai4lu6SUjk",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Chiquitita",
+                artist = "ABBA",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/p4QqMKe3rwY",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Once Upon A Dream",
+                artist = "Lana Del Rey",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/8waJ7W3QcJc",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Thinkin Bout You",
+                artist = "Frank Ocean",
+                duration = 4,
+                youtubeUrl = "https://www.youtube.com/watch?v=6JHu3b-pbh8",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "Coming Down",
+                artist = "The Weeknd",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/lEuqUHuqZrY",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(
+                title = "The Verve",
+                artist = "Bitter Sweet Symphony",
+                duration = 4,
+                youtubeUrl = "https://youtu.be/1lyu1KKwC74",
+                filePath = null,
+                downloadStatus = null
+            ),
+            SongEntity(title = "These Boots Are Made for Walkin'", artist = "Nancy Sinatra", duration = 4, youtubeUrl = "https://www.youtube.com/watch?v=GM1kzbAgo_E", filePath = null, downloadStatus = null),
+            SongEntity(title = "Shut Up And Drive", artist = "Rihanna", duration = 4, youtubeUrl = "https://youtu.be/up7pvPqNkuU", filePath = null, downloadStatus = null),
+            SongEntity(title = "Velvet Ring - 2023 Remaster", artist = "Big Thief", duration = 4, youtubeUrl = "https://youtu.be/LaCUwnVP-E8", filePath = null, downloadStatus = null),
+            SongEntity(title = "No One Noticed", artist = "The Marías", duration = 4, youtubeUrl = "https://youtu.be/Qn8F_u0vBNI", filePath = null, downloadStatus = null),
+            SongEntity(title = "A Drop in the Ocean", artist = "Ron Pope", duration = 4, youtubeUrl = "https://youtu.be/3lSDU48Pr_Q", filePath = null, downloadStatus = null),
+            SongEntity(title = "Matilda", artist = "Harry Styles", duration = 4, youtubeUrl = "https://youtu.be/lVnzO7opqNs", filePath = null, downloadStatus = null),
+            SongEntity(title = "Silver Springs - 2004 Remaster", artist = "Fleetwood Mac", duration = 4, youtubeUrl = "https://youtu.be/eDwi-8n054s", filePath = null, downloadStatus = null),
+            SongEntity(title = "Wiśnia", artist = "Kaśka Sochacka", duration = 4, youtubeUrl = "https://youtu.be/gsl69na5ltc", filePath = null, downloadStatus = null),
+            SongEntity(title = "I Told You Things", artist = "Gracie Abrams", duration = 4, youtubeUrl = "https://youtu.be/cazMpCkn9DM", filePath = null, downloadStatus = null),
+            SongEntity(title = "Nothing Else Matters - Remastered 2021", artist = "Metallica", duration = 4, youtubeUrl = "https://youtu.be/ozXZnwYTMbs", filePath = null, downloadStatus = null),
+            SongEntity(title = "Knee Socks", artist = "Arctic Monkeys", duration = 4, youtubeUrl = "https://youtu.be/lyO-Sveg6a8", filePath = null, downloadStatus = null),
+            SongEntity(title = "'Bout It", artist = "JMSN", duration = 4, youtubeUrl = "https://youtu.be/XyWtzINmfDI", filePath = null, downloadStatus = null),
+            SongEntity(title = "Chasing Pavements", artist = "Adele", duration = 4, youtubeUrl = "https://youtu.be/08DjMT-qR9g", filePath = null, downloadStatus = null),
+            SongEntity(title = "When We Were Young", artist = "Adele", duration = 4, youtubeUrl = "https://youtu.be/a1IuJLebHgM", filePath = null, downloadStatus = null),
+            SongEntity(title = "All I Ask", artist = "Adele", duration = 4, youtubeUrl = "https://youtu.be/jb5g4UFHmfQ", filePath = null, downloadStatus = null),
+            SongEntity(title = "Bad Religion", artist = "Frank Ocean", duration = 4, youtubeUrl = "https://youtu.be/JMpypbtrcCg", filePath = null, downloadStatus = null),
+            SongEntity(title = "Halley’s Comet", artist = "Billie Eilish", duration = 4, youtubeUrl = "https://www.youtube.com/watch?v=geUYm3f6ZA4", filePath = null, downloadStatus = null),
+            SongEntity(title = "Nothing’s Gonna Hurt You Baby", artist = "Cigarettes After Sex", duration = 4, youtubeUrl = "https://youtu.be/QI8VrXkffcg", filePath = null, downloadStatus = null),
+            SongEntity(title = "would’ve been you", artist = "sombr", duration = 4, youtubeUrl = "https://youtu.be/06NbjB0q46w", filePath = null, downloadStatus = null),
+            SongEntity(title = "Sparks", artist = "Coldplay", duration = 4, youtubeUrl = "https://youtu.be/xno6lesVMJc", filePath = null, downloadStatus = null),
+            SongEntity(title = "The Subway", artist = "Chappell Roan", duration = 4, youtubeUrl = "https://youtu.be/woLfAvD5iXI", filePath = null, downloadStatus = null),
+            SongEntity(title = "my future", artist = "Billie Eilish", duration = 4, youtubeUrl = "https://youtu.be/Dm9Zf1WYQ_A", filePath = null, downloadStatus = null),
+            SongEntity(title = "Tom’s Diner - 7\" Version", artist = "DNA, Suzanne Vega, Neal Slateford, Nick Batt", duration = 4, youtubeUrl = "https://youtu.be/KQL7VNSCM18", filePath = null, downloadStatus = null),
+            SongEntity(title = "Crying Lightning", artist = "Arctic Monkeys", duration = 4, youtubeUrl = "https://youtu.be/fLsBJPlGIDU", filePath = null, downloadStatus = null),
+            SongEntity(title = "Teddy Picker", artist = "Arctic Monkeys", duration = 4, youtubeUrl = "https://youtu.be/VredAgNScOw", filePath = null, downloadStatus = null),
+            SongEntity(title = "Me and Your Mama", artist = "Childish Gambino", duration = 4, youtubeUrl = "https://www.youtube.com/watch?v=fDNK7D6YMBQ", filePath = null, downloadStatus = null),
+            SongEntity(title = "SLOW DANCING IN THE DARK", artist = "Joji", duration = 4, youtubeUrl = "https://youtu.be/K3Qzzggn--s", filePath = null, downloadStatus = null),
 
-        )
+            )
         dao.insertAll(sampleSongs)
     }
 }
