@@ -1,15 +1,12 @@
 package com.example.yourgarden.ui
 
+import android.annotation.SuppressLint
 import com.example.yourgarden.data.coupons.CouponsDao
 import com.example.yourgarden.data.coupons.CouponsEntity
 import java.text.SimpleDateFormat
 import java.util.Date
 
 class CouponsRepository(private val couponsDao: CouponsDao) {
-
-    suspend fun getCouponByCode(code: String): CouponsEntity? {
-        return couponsDao.getCouponByCode(code)
-    }
 
     suspend fun updateCoupon(coupon: CouponsEntity) {
         couponsDao.updateCoupon(coupon)
@@ -19,11 +16,20 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
         return couponsDao.getAllCoupons()
     }
 
-    suspend fun insertInitialCoupons() {
+    // Nowa metoda - nie resetuje już bazy na każde uruchomienie
+    suspend fun initializeCouponsIfEmpty() {
+        val allCoupons = couponsDao.getAllCoupons()
+        // Jeśli baza jest pusta, wstaw kupony
+        if (allCoupons.isEmpty()) {
+            insertInitialCoupons()
+        }
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private suspend fun insertInitialCoupons() {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val dateString = "2023-10-27 10:30:00"
         val parsedDate: Date? = dateFormat.parse(dateString)
-        println(parsedDate)
 
         val initialCoupons = listOf(
             CouponsEntity(
@@ -37,7 +43,7 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
                 title = "SWEET SURPRISE ",
                 code = "1",
                 description = "Aktywować najpóźniej 24h przed randką!",
-                used = false,
+                used = true,
                 date = null
             ),
             CouponsEntity(
@@ -143,6 +149,13 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
                 code = "2137",
                 description = "Aktywować 24h przed randką!",
                 used = true,
+                date = null
+            ),
+            CouponsEntity(
+                title = "BROWNIE",
+                code = "14",
+                description = "Aktywować najpóźniej 72h przed randką!",
+                used = false,
                 date = null
             ),
         )

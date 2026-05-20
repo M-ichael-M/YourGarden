@@ -43,15 +43,20 @@ import com.example.yourgarden.ui.screens.CouponsScreen
 import com.example.yourgarden.ui.screens.CouponsViewModel
 import com.example.yourgarden.ui.screens.HeartScreenTransition
 import com.example.yourgarden.ui.screens.HomeScreen
+import com.example.yourgarden.ui.screens.Valentine
 import com.example.yourgarden.ui.screens.music.MusicList
 import com.example.yourgarden.ui.screens.music.MusicViewModel
 
-enum class GardenScreen(@StringRes val title: Int)
-{
-    Start(title = R.string.yourgarden),
-    MusicList(title = R.string.music),
-    Coupons(title = R.string.coupons)
+enum class GardenScreen(
+    @StringRes val title: Int,
+    val emoji: String
+) {
+    Start(title = R.string.yourgarden, emoji = "🌱"),
+    MusicList(title = R.string.music, emoji = "🎵"),
+    Coupons(title = R.string.coupons, emoji = "🎟️"),
+    Valentines(title = R.string.valentines_day, emoji = "❤️")
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -137,13 +142,15 @@ fun GardenApp(
                     HomeScreen(
                         screens = listOf(
                             GardenScreen.MusicList,
-                            GardenScreen.Coupons
+                            GardenScreen.Coupons,
+                            GardenScreen.Valentines
                         ),
                         onNextButtonClicked = { screen ->
                             showScreenTransition = true
                             when (screen) {
                                 GardenScreen.MusicList -> navController.navigate(GardenScreen.MusicList.name)
                                 GardenScreen.Coupons -> navController.navigate(GardenScreen.Coupons.name)
+                                GardenScreen.Valentines -> navController.navigate(GardenScreen.Valentines.name)
                                 else -> {}
                             }
                         },
@@ -158,6 +165,9 @@ fun GardenApp(
                 }
                 composable(GardenScreen.Coupons.name) {
                     CouponsScreen(viewModel = couponsViewModel)
+                }
+                composable(GardenScreen.Valentines.name) {
+                    Valentine()
                 }
             }
 

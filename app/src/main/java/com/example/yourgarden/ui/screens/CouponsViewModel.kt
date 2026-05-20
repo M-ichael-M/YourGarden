@@ -123,7 +123,7 @@ class CouponsViewModel(
 
     init {
         viewModelScope.launch {
-            repository.insertInitialCoupons()
+            repository.initializeCouponsIfEmpty()  // Zamiast insertInitialCoupons() - teraz nie resetuje
             refreshUsedCoupons()
             refreshUnusedCoupons()
         }

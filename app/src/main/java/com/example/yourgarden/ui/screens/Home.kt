@@ -6,37 +6,26 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -44,14 +33,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.Image
 import com.example.yourgarden.ui.GardenScreen
+import com.example.yourgarden.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.random.Random
-import com.example.yourgarden.R
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun HomeScreen(
@@ -59,81 +48,160 @@ fun HomeScreen(
     onNextButtonClicked: (GardenScreen) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // Dzielimy listę na wiersze po 3 kafelki
+    val rows = screens.chunked(3)
+
     LazyColumn(
-        modifier = modifier.padding(top = 20.dp),
-        verticalArrangement = Arrangement.SpaceBetween
+        modifier = modifier
+            .fillMaxSize()
+            .padding(0.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Row {
-                Column(
+        rows.forEach { rowItems ->
+            item {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    screens.forEach { item ->
-                        SelectQuantityButton(
+                    rowItems.forEach { item ->
+                        IconTile(
+                            emoji = item.emoji,
                             labelResourceId = item.title,
-                            onClick = { onNextButtonClicked(item) }
+                            onClick = { onNextButtonClicked(item) },
+                            modifier = Modifier.weight(1f) // równomierna szerokość kafelków
                         )
+                    }
+
+                    // Jeśli wiersz ma mniej niż 3 elementy, dodajemy pustą przestrzeń
+                    repeat(3 - rowItems.size) {
+                        Spacer(modifier = Modifier.weight(1f))
                     }
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            DaysSinceBox()
-            Spacer(modifier = Modifier.height(16.dp))
-            BearGreeting()
+        }
+
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+        item { AnimatedDaysSinceBox() }
+        item { Spacer(modifier = Modifier.height(16.dp)) }
+        item { AnimatedBearGreeting() }
+    }
+}
+
+@Composable
+fun IconTile(
+    @StringRes labelResourceId: Int,
+    emoji: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val scale = remember { Animatable(1f) }
+    val pressedScale = 0.95f // zmniejszenie przy dotknięciu
+
+    val interactionSource = remember { MutableInteractionSource() }
+
+    LaunchedEffect(Unit) {
+        // Pulsowanie kafelka
+        while (true) {
+            scale.animateTo(1.05f, tween(800, easing = EaseOut))
+            scale.animateTo(1f, tween(800, easing = EaseOut))
+        }
+    }
+
+    Card(
+        onClick = onClick,
+        modifier = modifier
+            .aspectRatio(1f)
+            .graphicsLayer(
+                scaleX = scale.value,
+                scaleY = scale.value
+            )
+            .shadow(6.dp, RoundedCornerShape(16.dp)),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        interactionSource = interactionSource,
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+    ) {
+        // Efekt dotknięcia – zmiana skali
+        val isPressed by interactionSource.collectIsPressedAsState()
+        val currentScale = if (isPressed) pressedScale else 1f
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .graphicsLayer(scaleX = currentScale, scaleY = currentScale)
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.9f),
+                            MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.6f)
+                        )
+                    )
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = emoji,
+                    fontSize = 36.sp
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(labelResourceId),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    maxLines = 1
+                )
+            }
         }
     }
 }
 
-@Composable
-fun SelectQuantityButton(
-    @StringRes labelResourceId: Int,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier.widthIn(min = 250.dp)
-    ) {
-        Text(
-            stringResource(labelResourceId),
-            color = MaterialTheme.colorScheme.onPrimary
-        )
-    }
-}
+
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DaysSinceBox(modifier: Modifier = Modifier) {
+fun AnimatedDaysSinceBox(modifier: Modifier = Modifier) {
     val startDateTime = LocalDateTime.of(2024, 6, 22, 20, 25)
-    val currentTime = remember { mutableStateOf(LocalDateTime.now()) }
+    var currentTime by remember { mutableStateOf(LocalDateTime.now()) }
 
     LaunchedEffect(Unit) {
         while (true) {
             delay(1000)
-            currentTime.value = LocalDateTime.now()
+            currentTime = LocalDateTime.now()
         }
     }
 
-    val daysPassed = ChronoUnit.DAYS.between(startDateTime, currentTime.value)
-    val secondsPassed = ChronoUnit.SECONDS.between(startDateTime, currentTime.value)
+    val daysPassed = ChronoUnit.DAYS.between(startDateTime, currentTime)
+    val secondsPassed = ChronoUnit.SECONDS.between(startDateTime, currentTime)
 
-    Box(
+    val offsetY = remember { Animatable(-30f) }
+    LaunchedEffect(Unit) {
+        offsetY.animateTo(0f, tween(1200, easing = EaseOut))
+    }
+
+    Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .size(200.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.primaryContainer),
-        contentAlignment = Alignment.Center
+            .padding(8.dp)
+            .height(200.dp)
+            .graphicsLayer(translationY = offsetY.value),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
     ) {
         Column(
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = "$daysPassed dni z ∞",
-                fontSize = 32.sp,
+                fontSize = 34.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -143,7 +211,6 @@ fun DaysSinceBox(modifier: Modifier = Modifier) {
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
             Spacer(modifier = Modifier.height(8.dp))
-
             Text(
                 text = "czyli $secondsPassed sekund",
                 fontSize = 16.sp,
@@ -160,35 +227,39 @@ fun DaysSinceBox(modifier: Modifier = Modifier) {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun BearGreeting(modifier: Modifier = Modifier) {
-    val currentTime = remember { mutableStateOf(LocalDateTime.now()) }
+fun AnimatedBearGreeting(modifier: Modifier = Modifier) {
+    var currentTime by remember { mutableStateOf(LocalDateTime.now()) }
 
     LaunchedEffect(Unit) {
         while (true) {
-            delay(60000) // Aktualizuj co minutę
-            currentTime.value = LocalDateTime.now()
+            delay(60000)
+            currentTime = LocalDateTime.now()
         }
     }
 
-    val hour = currentTime.value.hour
+    val hour = currentTime.hour
     val isSleepTime = hour >= 22 || hour < 7
     val bearImage = if (isSleepTime) R.drawable.sbear else R.drawable.wbear
     val greeting = if (isSleepTime) "Dobranoooc" else "Miłego dnia Martynka"
 
-    Box(
+    val scale = remember { Animatable(0.8f) }
+    LaunchedEffect(Unit) {
+        scale.animateTo(1f, tween(1200, easing = EaseOut))
+    }
+
+    Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.secondaryContainer),
-        contentAlignment = Alignment.Center
+            .padding(8.dp)
+            .graphicsLayer(scaleX = scale.value, scaleY = scale.value),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
     ) {
         Row(
-            modifier = Modifier
-                .padding(24.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.padding(24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Box(
                 modifier = Modifier
@@ -200,15 +271,14 @@ fun BearGreeting(modifier: Modifier = Modifier) {
                 Image(
                     painter = painterResource(id = bearImage),
                     contentDescription = "Bear",
-                    modifier = Modifier
-                        .size(120.dp),
-                    contentScale = ContentScale.Fit
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.size(120.dp)
                 )
             }
-            Spacer(modifier = Modifier.padding(20.dp))
+            Spacer(modifier = Modifier.width(20.dp))
             Text(
                 text = greeting,
-                fontSize = 20.sp,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
@@ -265,31 +335,12 @@ fun TransitionHeart(heart: HeartParticle) {
 
     LaunchedEffect(heart.id) {
         delay(heart.delay)
-
-        launch {
-            offsetY.animateTo(
-                targetValue = heart.startY - 1200f,
-                animationSpec = tween(durationMillis = 2200, easing = EaseOut)
-            )
-        }
-        launch {
-            offsetX.animateTo(
-                targetValue = heart.startX * 0.8f,
-                animationSpec = tween(durationMillis = 2200, easing = EaseOut)
-            )
-        }
-        launch {
-            rotation.animateTo(
-                targetValue = 360f,
-                animationSpec = tween(durationMillis = 2200, easing = EaseOut)
-            )
-        }
+        launch { offsetY.animateTo(heart.startY - 1200f, tween(2200, easing = EaseOut)) }
+        launch { offsetX.animateTo(heart.startX * 0.8f, tween(2200, easing = EaseOut)) }
+        launch { rotation.animateTo(360f, tween(2200, easing = EaseOut)) }
         launch {
             delay(1000)
-            alpha.animateTo(
-                targetValue = 0f,
-                animationSpec = tween(durationMillis = 1000)
-            )
+            alpha.animateTo(0f, tween(1000))
         }
     }
 
