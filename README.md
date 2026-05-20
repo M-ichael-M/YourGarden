@@ -1,114 +1,114 @@
-# YourGarden App
+# YourGarden 🌿
 
-A personalized Android application crafted with love for my girlfriend, blending music playback and coupon management into a unique experience.
+A personal Android app combining music playback and coupon management, built as a gift. Powered by a lightweight Python/Flask backend for YouTube audio downloads.
 
-## Table of Contents
+> **Note:** This is a personal project — some features (e.g. the days counter, coupon email notifications) are hardcoded for a specific use case, but the architecture is fully adaptable.
 
-- Features
-- Setup
-- Usage
-- Architecture
-- Contributing
+---
 
 ## Features
 
-- **Music Playback:**
+**Music Player**
+- Download audio from YouTube URLs via a Flask + yt-dlp backend
+- Play, pause, skip, and shuffle downloaded tracks
+- Add songs by title, artist, and URL; delete them from local storage
 
-  - Download songs directly from YouTube URLs.
-  - Play, pause, skip, and manage downloaded songs with a sleek interface.
-  - Random playback option and song deletion functionality.
+**Coupon Manager**
+- Browse available and used coupons with titles, codes, and descriptions
+- Activate coupons with a confirmation dialog
+- Email notification sent automatically on activation
 
-- **Coupon Management:**
+**Home Screen**
+- Days-since counter with a live seconds ticker (counted from a configurable start date)
+- Quick navigation to Music and Coupons screens
 
-  - Browse available and used coupons.
-  - Activate coupons with a confirmation prompt.
-  - Receive email notifications upon coupon activation.
+---
 
-- **Home Screen:**
+## Tech Stack
 
-  - Displays the number of days since our special date (June 22, 2024).
+| Layer | Technology |
+|---|---|
+| Android UI | Jetpack Compose |
+| Local storage | Room (SQLite) |
+| State management | ViewModel + StateFlow |
+| Backend | Python 3, Flask |
+| Audio downloader | yt-dlp |
+| Audio processing | FFmpeg |
 
-## Setup
+---
+
+## Project Structure
+
+```
+yourgarden/
+├── app/                  # Android (Kotlin + Jetpack Compose)
+│   ├── ui/               # Compose screens (Home, Music, Coupons)
+│   ├── viewmodel/        # ViewModels for each screen
+│   └── data/             # Room entities, DAOs, repositories
+└── server/
+    └── YourGarden.py     # Flask server (download + file serving)
+```
+
+---
+
+## Getting Started
 
 ### Prerequisites
 
-- **Android Studio** (for app development and emulation)
-- **Python 3.x** (for the server)
-- **Python Packages:** `flask`, `yt_dlp`
-- **FFmpeg** (for audio processing on the server)
+- [Android Studio](https://developer.android.com/studio) (Hedgehog or newer recommended)
+- Python 3.8+
+- FFmpeg — place the binary in `server/bin/`
 
-### Installation
+### 1. Clone the repository
 
-1. **Clone the Repository:**
+```sh
+git clone https://github.com/yourusername/yourgarden.git
+cd yourgarden
+```
 
-   ```sh
-   git clone https://github.com/yourusername/yourgarden.git
-   ```
+### 2. Set up the Android app
 
-2. **Set Up the Android Project:**
+Open the `app/` folder in Android Studio, sync Gradle, and build the project.
 
-   - Open the project in Android Studio.
-   - Sync Gradle and build the project.
+### 3. Set up the Python server
 
-3. **Set Up the Python Server:**
+```sh
+cd server
+pip install flask yt_dlp
+python YourGarden.py
+```
 
-   - Navigate to the server directory in the cloned repository.
-   - Install dependencies:
+The server starts at `http://0.0.0.0:5000` by default.
 
-     ```sh
-     pip install flask yt_dlp
-     ```
-   - Ensure FFmpeg is placed in the `bin/` directory relative to `YourGarden.py`.
-   - Run the server:
+**Optional — build a standalone executable:**
+```sh
+pyinstaller --onefile YourGarden.py
+```
 
-     ```sh
-     python YourGarden.py
-     ```
-   - (Optional) Convert to executable using PyInstaller or Nuitka:
+### 4. Connect the app to the server
 
-     ```sh
-     pyinstaller --onefile YourGarden.py
-     ```
+Launch the app and tap the settings icon to enter your server's local IP address.
 
-4. **Configure the Server URL in the App:**
+Default: `http://192.168.1.8:5000` — change this to match your machine.
 
-   - Launch the app and use the settings icon to set the server URL.
-   - Default URL: `http://192.168.1.8:5000` (adjust based on your server's IP).
+---
 
 ## Usage
 
-### Home Screen
+| Screen | What you can do |
+|---|---|
+| **Home** | See the days counter and navigate to other screens |
+| **Music** | View downloaded songs, add new ones by URL, play/skip/shuffle/delete |
+| **Coupons** | Browse available coupons, activate them, view used coupons with dates |
 
-- **Days Counter:** Shows the number of days since June 22, 2024, with a live seconds ticker.
-- **Navigation:** Access Music and Coupons screens via buttons.
-
-### Music Screen
-
-- **Song List:** View downloaded songs and available songs to download.
-- **Controls:** Play, pause, skip next/previous, and toggle random playback.
-- **Add Songs:** Enter a song title, artist, and YouTube URL to queue for download.
-- **Delete Songs:** Remove downloaded songs from storage.
-
-### Coupons Screen
-
-- **Available Coupons:** Lists unused coupons with titles, codes, and descriptions.
-- **Used Coupons:** Displays activated coupons with usage dates.
-- **Activation:** Activate a coupon with a confirmation dialog; an email is sent upon activation.
-
-## Architecture
-
-- **Android App:**
-
-  - **UI:** Built with Jetpack Compose for a modern, responsive interface.
-  - **Database:** Room persists songs and coupons locally.
-  - **ViewModels:** Manage UI data and business logic.
-
-- **Python Server:**
-
-  - **Framework:** Flask handles HTTP requests.
-  - **Downloader:** `yt_dlp` fetches audio from YouTube URLs.
-  - **File Handling:** Serves audio files and cleans up post-delivery.
+---
 
 ## Contributing
 
-This is a personal project, but feel free to fork and suggest improvements via pull requests!
+This is a personal project, but PRs and suggestions are welcome. Feel free to fork and adapt it for your own use case.
+
+---
+
+## License
+
+[MIT](LICENSE)
