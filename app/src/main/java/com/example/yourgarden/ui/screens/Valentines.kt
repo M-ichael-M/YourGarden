@@ -1060,7 +1060,7 @@ fun FlashlightScreen(viewModel: ValentineViewModel) {
                 // Tutaj wstaw swoje zdjęcie
                 // Przykład: Image(painter = painterResource(id = R.drawable.twoje_zdjecie), ...)
                 Image(
-                    painter = painterResource(id = R.drawable.v), // ZMIEŃ NA SWOJĄ NAZWĘ PLIKU
+                    painter = painterResource(id = R.drawable.gal3), // ZMIEŃ NA SWOJĄ NAZWĘ PLIKU
                     contentDescription = "Nasze zdjęcie",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
@@ -2109,10 +2109,10 @@ fun GalleryScreen(viewModel: ValentineViewModel) {
                     ) {
                         // Zdjęcia - TUTAJ ZMIEŃ NA SWOJE
                         val imageRes = when (page) {
-                            0 -> R.drawable.gal1  // ZMIEŃ NA SWOJĄ NAZWĘ
-                            1 -> R.drawable.gal2  // ZMIEŃ NA SWOJĄ NAZWĘ
+                            0 -> R.drawable.gal3  // ZMIEŃ NA SWOJĄ NAZWĘ
+                            1 -> R.drawable.gal3  // ZMIEŃ NA SWOJĄ NAZWĘ
                             2 -> R.drawable.gal3  // ZMIEŃ NA SWOJĄ NAZWĘ
-                            else -> R.drawable.gal1
+                            else -> R.drawable.gal3
                         }
 
                         Image(
