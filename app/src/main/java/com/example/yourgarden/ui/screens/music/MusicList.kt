@@ -252,7 +252,7 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
     // Wyświetlanie dialogu do dodawania piosenki
     if (showAddSongDialog) {
         AddSongDialog(
-            onDismiss = { showAddSongDialog = false },
+            onDismiss = { },
             onSubmit = { title, artist, youtubeUrl ->
                 val newSong = SongEntity(
                     title = title,
@@ -263,7 +263,6 @@ fun MusicList(viewModel: MusicViewModel, modifier: Modifier = Modifier) {
                     downloadStatus = null
                 )
                 viewModel.insertSong(newSong)
-                showAddSongDialog = false
             }
         )
     }

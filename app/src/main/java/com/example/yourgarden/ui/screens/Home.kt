@@ -48,7 +48,6 @@ fun HomeScreen(
     onNextButtonClicked: (GardenScreen) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // Dzielimy listę na wiersze po 3 kafelki
     val rows = screens.chunked(3)
 
     LazyColumn(
@@ -69,11 +68,10 @@ fun HomeScreen(
                             emoji = item.emoji,
                             labelResourceId = item.title,
                             onClick = { onNextButtonClicked(item) },
-                            modifier = Modifier.weight(1f) // równomierna szerokość kafelków
+                            modifier = Modifier.weight(1f)
                         )
                     }
 
-                    // Jeśli wiersz ma mniej niż 3 elementy, dodajemy pustą przestrzeń
                     repeat(3 - rowItems.size) {
                         Spacer(modifier = Modifier.weight(1f))
                     }
@@ -96,12 +94,11 @@ fun IconTile(
     modifier: Modifier = Modifier
 ) {
     val scale = remember { Animatable(1f) }
-    val pressedScale = 0.95f // zmniejszenie przy dotknięciu
+    val pressedScale = 0.95f
 
     val interactionSource = remember { MutableInteractionSource() }
 
     LaunchedEffect(Unit) {
-        // Pulsowanie kafelka
         while (true) {
             scale.animateTo(1.05f, tween(800, easing = EaseOut))
             scale.animateTo(1f, tween(800, easing = EaseOut))
@@ -122,7 +119,6 @@ fun IconTile(
         interactionSource = interactionSource,
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
-        // Efekt dotknięcia – zmiana skali
         val isPressed by interactionSource.collectIsPressedAsState()
         val currentScale = if (isPressed) pressedScale else 1f
 
@@ -238,7 +234,7 @@ fun AnimatedBearGreeting(modifier: Modifier = Modifier) {
     }
 
     val hour = currentTime.hour
-    val isSleepTime = hour >= 22 || hour < 7
+    val isSleepTime = hour !in 7..<22
     val bearImage = if (isSleepTime) R.drawable.sbear else R.drawable.wbear
     val greeting = if (isSleepTime) "Dobranoooc" else "Miłego dnia Martynka"
 

@@ -22,6 +22,11 @@ A personal Android app combining music playback and coupon management, built as 
 - Days-since counter with a live seconds ticker (counted from a configurable start date)
 - Quick navigation to Music and Coupons screens
 
+**Virtual Valentine's Day invitation**
+- Interactive experience using hardware (flashlight, vibration, screen brightness, position sensor, camera, microphone)
+- Photo gallery
+- Valentine's Day date survey + answers sent via email
+
 ---
 
 ## Tech Stack
@@ -42,10 +47,7 @@ A personal Android app combining music playback and coupon management, built as 
 ```
 yourgarden/
 ├── app/                  # Android (Kotlin + Jetpack Compose)
-│   ├── ui/               # Compose screens (Home, Music, Coupons)
-│   ├── viewmodel/        # ViewModels for each screen
-│   └── data/             # Room entities, DAOs, repositories
-└── server/
+└── python/
     └── YourGarden.py     # Flask server (download + file serving)
 ```
 
@@ -57,12 +59,12 @@ yourgarden/
 
 - [Android Studio](https://developer.android.com/studio) (Hedgehog or newer recommended)
 - Python 3.8+
-- FFmpeg — place the binary in `server/bin/`
+- FFmpeg
 
 ### 1. Clone the repository
 
 ```sh
-git clone https://github.com/yourusername/yourgarden.git
+git clone https://github.com/M-ichael-M/YourGarden.git
 cd yourgarden
 ```
 
@@ -73,17 +75,13 @@ Open the `app/` folder in Android Studio, sync Gradle, and build the project.
 ### 3. Set up the Python server
 
 ```sh
-cd server
+cd python
 pip install flask yt_dlp
 python YourGarden.py
 ```
 
 The server starts at `http://0.0.0.0:5000` by default.
 
-**Optional — build a standalone executable:**
-```sh
-pyinstaller --onefile YourGarden.py
-```
 
 ### 4. Connect the app to the server
 
@@ -100,14 +98,10 @@ Default: `http://192.168.1.8:5000` — change this to match your machine.
 | **Home** | See the days counter and navigate to other screens |
 | **Music** | View downloaded songs, add new ones by URL, play/skip/shuffle/delete |
 | **Coupons** | Browse available coupons, activate them, view used coupons with dates |
+| **Virtual Valentine's Day invitation** | Delight your partner with an invitation to Valentine's Day |
 
 ---
 
-## Contributing
-
-This is a personal project, but PRs and suggestions are welcome. Feel free to fork and adapt it for your own use case.
-
----
 
 ## License
 

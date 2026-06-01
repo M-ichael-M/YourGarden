@@ -43,11 +43,9 @@ class MainActivity : ComponentActivity() {
             val repository = MusicListRepository(this@MainActivity)
 
             if (isFirstLaunch) {
-                // Pierwsze uruchomienie - dodaj wszystkie piosenki
                 repository.insertSampleSongs()
                 sharedPreferences.edit { putBoolean("is_first_launch", false) }
             } else {
-                // Kolejne uruchomienia - sprawdź czy wszystkie piosenki są w bazie
                 repository.syncSampleSongs()
             }
         }

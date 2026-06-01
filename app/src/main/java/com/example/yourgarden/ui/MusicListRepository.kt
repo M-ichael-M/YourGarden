@@ -4232,15 +4232,12 @@ class MusicListRepository(context: Context) : SongDao {
             val existingSongs = getAllSongs().first()
             val sampleSongs = getSampleSongs()
 
-            // Utwórz zbiór YouTubeUrl z istniejących piosenek dla szybszego wyszukiwania
             val existingUrls = existingSongs.map { it.youtubeUrl }.toSet()
 
-            // Znajdź brakujące piosenki
             val missingSongs = sampleSongs.filter { sample ->
                 sample.youtubeUrl !in existingUrls
             }
 
-            // Dodaj brakujące piosenki do bazy
             if (missingSongs.isNotEmpty()) {
                 dao.insertAll(missingSongs)
             }

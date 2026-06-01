@@ -64,7 +64,7 @@ fun GardenAppBar(
     currentScreen: GardenScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
-    onSettingsClick: () -> Unit, // Dodajemy callback
+    onSettingsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -88,7 +88,7 @@ fun GardenAppBar(
             }
         },
         actions = {
-            IconButton(onClick = onSettingsClick) { // Używamy przekazanej funkcji
+            IconButton(onClick = onSettingsClick) {
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = "Zmień URL serwera"
@@ -171,7 +171,6 @@ fun GardenApp(
                 }
             }
 
-            // Animacja przejścia ekranów
             if (showScreenTransition) {
                 HeartScreenTransition(
                     onAnimationEnd = { showScreenTransition = false }
@@ -179,7 +178,6 @@ fun GardenApp(
             }
         }
 
-        // Dialog do zmiany URL
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { showDialog = false },
@@ -210,12 +208,4 @@ fun GardenApp(
             )
         }
     }
-}
-
-
-
-@Composable
-@Preview
-fun Preview() {
-    //PsycheaApp()
 }

@@ -25,7 +25,6 @@ object FileUtils {
                 Log.w("FileUtils", "Plik nie istnieje: $it")
             }
         }
-        // Aktualizacja obu pól w bazie danych
         songDao.updateFilePath(song.youtubeUrl, null)
         songDao.updateDownloadStatus(song.youtubeUrl, null)
         Log.d("FileUtils", "Zaktualizowano dane utworu: ${song.title}")

@@ -56,8 +56,8 @@ class MusicViewModel(private val application: Application) : ViewModel() {
                 client.newCall(request).execute().use { response ->
                     Log.d("MusicViewModel", "Response code: ${response.code}")
                     if (response.isSuccessful) {
-                        val byteArray = response.body?.bytes()
-                        byteArray?.let {
+                        val byteArray = response.body.bytes()
+                        byteArray.let {
                             val filePath = FileUtils.saveFileToStorage(application, song.title, it, "webm")
                             repository.updateFilePath(song.youtubeUrl, filePath)
                             repository.updateDownloadStatus(song.youtubeUrl, "Downloaded")

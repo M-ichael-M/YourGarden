@@ -80,9 +80,9 @@ fun CouponsScreen(
                             } else {
                                 Button(
                                     onClick = {},
-                                    enabled = false, // Wyłącza interakcję
+                                    enabled = false,
                                     colors = ButtonDefaults.buttonColors(
-                                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f), // Przygaszony kolor
+                                        containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
                                         contentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.7f)
                                     )
                                 ) {

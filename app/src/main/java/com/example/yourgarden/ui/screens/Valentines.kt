@@ -100,48 +100,35 @@ import kotlin.math.sqrt
 // ViewModel
 class ValentineViewModel : ViewModel() {
 
-    // NEW — permission for microphone
     var permissionGranted = mutableStateOf(false)
 
     var isLoading = mutableStateOf(true)
     var currentLoadingText = mutableStateOf("Ładowanie przytulasów...")
     var currentStep = mutableStateOf(0)
 
-    // Shake detection
     var hasShaken = mutableStateOf(false)
 
-    // Heartbeat
     var heartbeatTouched = mutableStateOf(false)
 
-    // Brightness
     var brightnessIncreased = mutableStateOf(false)
 
-    // Scratch off
     var scratchProgress = mutableStateOf(0f)
     var scratchRevealed = mutableStateOf(false)
 
-    // Darkness screen
     var darknessAcknowledged = mutableStateOf(false)
 
-    // Flashlight screen
     var flashlightActivated = mutableStateOf(false)
 
-    // Blow detection
     var cloudsCleared = mutableStateOf(false)
 
-    // Camera screen
     var cameraViewed = mutableStateOf(false)
 
-    // Compass screen
     var compassAligned = mutableStateOf(false)
 
-    // Gallery screen
     var galleryViewed = mutableStateOf(false)
 
-    // Letter read
     var letterRead = mutableStateOf(false)
 
-    // Odpowiedzi
     var willBeValentine = mutableStateOf("")
     var excitementLevel = mutableStateOf(5f)
     var hugCount = mutableStateOf(0)
@@ -281,7 +268,6 @@ fun Valentine(viewModel: ValentineViewModel = viewModel()) {
             .fillMaxSize()
             .background(backgroundColor)
     ) {
-        // Hearts background animation
         HeartsBackground()
 
         when {
@@ -744,7 +730,7 @@ fun BrightnessScreen(viewModel: ValentineViewModel) {
     DisposableEffect(Unit) {
         onDispose {
             // Przywróć normalną jasność
-            window?.attributes = window?.attributes?.apply {
+            window?.attributes = window.attributes?.apply {
                 screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE
             }
         }
@@ -993,7 +979,7 @@ fun FlashlightScreen(viewModel: ValentineViewModel) {
 
     // Automatyczne włączenie latarki po wejściu na ekran
     LaunchedEffect(Unit) {
-        delay(500) // Krótkie opóźnienie dla płynności
+        delay(500)
         try {
             cameraId?.let {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1021,7 +1007,6 @@ fun FlashlightScreen(viewModel: ValentineViewModel) {
         }
     }
 
-    // Animacja pulsowania dla tekstu
     val infiniteTransition = rememberInfiniteTransition(label = "light")
     val alpha by infiniteTransition.animateFloat(
         initialValue = 0.7f,
@@ -1043,7 +1028,6 @@ fun FlashlightScreen(viewModel: ValentineViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(32.dp)
         ) {
-            // Zdjęcie w ramce
             Box(
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
@@ -1057,10 +1041,8 @@ fun FlashlightScreen(viewModel: ValentineViewModel) {
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                // Tutaj wstaw swoje zdjęcie
-                // Przykład: Image(painter = painterResource(id = R.drawable.twoje_zdjecie), ...)
                 Image(
-                    painter = painterResource(id = R.drawable.gal3), // ZMIEŃ NA SWOJĄ NAZWĘ PLIKU
+                    painter = painterResource(id = R.drawable.gal3),
                     contentDescription = "Nasze zdjęcie",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
@@ -1566,9 +1548,8 @@ fun CameraScreen(viewModel: ValentineViewModel) {
 fun CompassScreen(viewModel: ValentineViewModel) {
     val context = LocalContext.current
 
-    // Twoje współrzędne (Michała)
-    val targetLatitude = 52.223222 // 52°13'23.6"N
-    val targetLongitude = 20.944083 // 20°56'38.7"E
+    val targetLatitude = 52.223222
+    val targetLongitude = 20.944083
 
     var hasLocationPermission by remember {
         mutableStateOf(
@@ -1895,7 +1876,6 @@ fun CompassScreen(viewModel: ValentineViewModel) {
                             }
                         }
 
-                        // NOWE: Kropka pokazująca gdzie powinno być serce
                         if (currentLocation != null) {
                             val targetAngle = bearingToTarget
                             val dotX = center.x + (radius - 80f) * sin(Math.toRadians(targetAngle.toDouble())).toFloat()
@@ -1909,7 +1889,6 @@ fun CompassScreen(viewModel: ValentineViewModel) {
                         }
                     }
 
-                    // Strzałka wskazująca kierunek do celu - UŻYWA WYGŁADZONEGO AZYMUTU
                     if (currentLocation != null) {
                         val arrowRotation = bearingToTarget - smoothedAzimuth.value
 
@@ -2038,7 +2017,6 @@ fun GalleryScreen(viewModel: ValentineViewModel) {
                 .padding(top = 50.dp, bottom = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Tytuł
             Text(
                 text = "TO NASZE",
                 fontSize = 32.sp,
@@ -2072,7 +2050,6 @@ fun GalleryScreen(viewModel: ValentineViewModel) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Galeria zdjęć
             HorizontalPager(
                 state = pagerState,
                 modifier = Modifier
@@ -2090,7 +2067,6 @@ fun GalleryScreen(viewModel: ValentineViewModel) {
                                     (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
                                     ).absoluteValue
 
-                            // Efekt parallax
                             alpha = 1f - pageOffset.coerceIn(0f, 1f) * 0.5f
                             scaleX = 1f - pageOffset.coerceIn(0f, 1f) * 0.15f
                             scaleY = 1f - pageOffset.coerceIn(0f, 1f) * 0.15f
@@ -2107,11 +2083,10 @@ fun GalleryScreen(viewModel: ValentineViewModel) {
                             .padding(8.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        // Zdjęcia - TUTAJ ZMIEŃ NA SWOJE
                         val imageRes = when (page) {
-                            0 -> R.drawable.gal3  // ZMIEŃ NA SWOJĄ NAZWĘ
-                            1 -> R.drawable.gal3  // ZMIEŃ NA SWOJĄ NAZWĘ
-                            2 -> R.drawable.gal3  // ZMIEŃ NA SWOJĄ NAZWĘ
+                            0 -> R.drawable.gal3
+                            1 -> R.drawable.gal3
+                            2 -> R.drawable.gal3
                             else -> R.drawable.gal3
                         }
 
@@ -2121,10 +2096,9 @@ fun GalleryScreen(viewModel: ValentineViewModel) {
                             modifier = Modifier
                                 .fillMaxSize()
                                 .clip(RoundedCornerShape(12.dp)),
-                            contentScale = ContentScale.Fit  // Zmienione z Crop na Fit - teraz całe zdjęcie będzie widoczne
+                            contentScale = ContentScale.Fit
                         )
 
-                        // Numer zdjęcia w rogu
                         Box(
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
@@ -2148,7 +2122,6 @@ fun GalleryScreen(viewModel: ValentineViewModel) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Wskaźniki stron
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
@@ -2200,7 +2173,6 @@ fun GalleryScreen(viewModel: ValentineViewModel) {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // Przycisk
             Box(modifier = Modifier.padding(horizontal = 32.dp)) {
                 ValentineButton(
                     text = "Oczywiście! →",

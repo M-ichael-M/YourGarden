@@ -16,7 +16,6 @@ class CouponsRepository(private val couponsDao: CouponsDao) {
         return couponsDao.getAllCoupons()
     }
 
-    // Nowa metoda - nie resetuje już bazy na każde uruchomienie
     suspend fun initializeCouponsIfEmpty() {
         val allCoupons = couponsDao.getAllCoupons()
         // Jeśli baza jest pusta, wstaw kupony

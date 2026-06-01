@@ -25,7 +25,7 @@ class CouponsViewModel(
     val couponStatus = mutableStateOf<String?>(null)
     val usedCoupons = mutableStateOf<List<CouponsEntity>>(emptyList())
     val unusedCoupons = mutableStateOf<List<CouponsEntity>>(emptyList())
-    val couponToActivate = mutableStateOf<CouponsEntity?>(null) // Nowy stan dla dialogu
+    val couponToActivate = mutableStateOf<CouponsEntity?>(null)
 
     private fun refreshUsedCoupons() {
         viewModelScope.launch {
@@ -74,13 +74,13 @@ class CouponsViewModel(
                 sendEmail(coupon.code, coupon.title)
                 refreshUsedCoupons()
                 refreshUnusedCoupons()
-                couponToActivate.value = null // Reset stanu
+                couponToActivate.value = null
             }
         }
     }
 
     fun cancelActivateCoupon() {
-        couponToActivate.value = null // Reset stanu
+        couponToActivate.value = null
     }
 
     private fun sendEmail(code: String, title: String) {
@@ -123,7 +123,7 @@ class CouponsViewModel(
 
     init {
         viewModelScope.launch {
-            repository.initializeCouponsIfEmpty()  // Zamiast insertInitialCoupons() - teraz nie resetuje
+            repository.initializeCouponsIfEmpty()
             refreshUsedCoupons()
             refreshUnusedCoupons()
         }
